@@ -1,6 +1,8 @@
 ﻿using Gatherly.Application.Abstractions;
+using Gatherly.Domain.Entities;
 using Gatherly.Domain.Enums;
 using Gatherly.Domain.Repositories;
+using Gatherly.Domain.Shared;
 using MediatR;
 
 namespace Gatherly.Application.Invitations.Commands.AcceptInvitation;
@@ -50,11 +52,11 @@ internal sealed class AcceptInvitationCommandHandler : IRequestHandler<AcceptInv
             return Unit.Value;
         }
 
-        var attendee = gathering.AcceptInvitation(invitation);
+        Result<Attendee> attendeeResult = gathering.AcceptInvitation(invitation);
 
-        if (attendee is not null)
+        if (attendeeResult.IsSuccess)
         {
-            _attendeeRepository.Add(attendee);
+            _attendeeRepository.Add(attendeeResult.Value);
         }
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
