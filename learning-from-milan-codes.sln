@@ -59,6 +59,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gatherly.Presentation", "sr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartEnum", "src\Services\Application\SmartEnum\SmartEnum.csproj", "{B77E07E5-18B4-40DA-979D-EA8B5446CEA7}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{A7805952-DAAB-4F43-AB88-47F7EE16BA47}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContainsDuplicates.Benchmark", "src\Services\Test\ContainsDuplicates.Benchmark\ContainsDuplicates.Benchmark.csproj", "{DD90E5AD-1162-4249-9683-71F6775367DB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -121,6 +125,10 @@ Global
 		{B77E07E5-18B4-40DA-979D-EA8B5446CEA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B77E07E5-18B4-40DA-979D-EA8B5446CEA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B77E07E5-18B4-40DA-979D-EA8B5446CEA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD90E5AD-1162-4249-9683-71F6775367DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD90E5AD-1162-4249-9683-71F6775367DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD90E5AD-1162-4249-9683-71F6775367DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD90E5AD-1162-4249-9683-71F6775367DB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -153,6 +161,8 @@ Global
 		{91CBA554-B624-4DE2-A2D0-7EC8109AA65D} = {EDF6FB79-F200-4513-BF9A-5C8493E664AC}
 		{6A9DC408-48CF-4902-934E-43068DFA60CD} = {EDF6FB79-F200-4513-BF9A-5C8493E664AC}
 		{B77E07E5-18B4-40DA-979D-EA8B5446CEA7} = {1EA0B26F-1E93-4801-AC19-08C95FF59DBA}
+		{A7805952-DAAB-4F43-AB88-47F7EE16BA47} = {A590CE0F-A6CE-4AD0-A9E5-8ECB71E65739}
+		{DD90E5AD-1162-4249-9683-71F6775367DB} = {A7805952-DAAB-4F43-AB88-47F7EE16BA47}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B0C00772-914D-4F50-BF30-19CA773160B3}
