@@ -1,4 +1,5 @@
 using Application;
+using Application.Behaviors;
 using Carter;
 using Infrastructure.Outbox;
 using Marten;
@@ -27,6 +28,10 @@ builder.Services.AddMarten(options =>
 
 builder.Services.AddMediatR(ApplicationAssembly.Instance);
 
+builder.Services.AddScoped(
+    typeof(IPipelineBehavior<,>),
+    typeof(LoggingPipelineBehavior<,>));
+
 WebApplication app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -38,10 +43,5 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.MapCarter();
-
-app.MapGet("settings/outbox", (OutboxSettings settings) =>
-{
-    return Results.Ok(settings);
-});
 
 app.Run();
