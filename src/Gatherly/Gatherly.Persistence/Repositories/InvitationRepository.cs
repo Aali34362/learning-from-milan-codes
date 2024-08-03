@@ -5,8 +5,11 @@ namespace Gatherly.Persistence.Repositories;
 
 internal sealed class InvitationRepository : IInvitationRepository
 {
-    public void Add(Invitation invitation)
-    {
-        throw new NotImplementedException();
-    }
+    private readonly ApplicationDbContext _dbContext;
+
+    public InvitationRepository(ApplicationDbContext dbContext) =>
+        _dbContext = dbContext;
+
+    public void Add(Invitation invitation) =>
+        _dbContext.Set<Invitation>().Remove(invitation);
 }

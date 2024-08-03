@@ -1,4 +1,9 @@
-﻿using Gatherly.Domain.Primitives;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Gatherly.Domain.Primitives;
 using Gatherly.Persistence.Outbox;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -34,7 +39,7 @@ public sealed class ConvertDomainEventsToOutboxMessagesInterceptor
             })
             .Select(domainEvent => new OutboxMessage
             {
-                Id = domainEvent.Id,
+                Id = Guid.NewGuid(),
                 OccurredOnUtc = DateTime.UtcNow,
                 Type = domainEvent.GetType().Name,
                 Content = JsonConvert.SerializeObject(

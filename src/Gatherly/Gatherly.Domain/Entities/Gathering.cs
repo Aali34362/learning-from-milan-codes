@@ -126,16 +126,16 @@ public sealed class Gathering : AggregateRoot
 
     public Result<Attendee> AcceptInvitation(Invitation invitation)
     {
-        var reachedMaximumNumberOfAttendees =
+        bool reachedMaximumNumberOfAttendees =
             Type == GatheringType.WithFixedNumberOfAttendees &&
             NumberOfAttendees == MaximumNumberOfAttendees;
 
-        var reachedInvitationsExpiration =
+        bool reachedInvitationsExpiration =
             Type == GatheringType.WithExpirationForInvitations &&
             InvitationsExpireAtUtc < DateTime.UtcNow;
 
-        var expired = reachedMaximumNumberOfAttendees ||
-                      reachedInvitationsExpiration;
+        bool expired = reachedMaximumNumberOfAttendees ||
+                       reachedInvitationsExpiration;
 
         if (expired)
         {
@@ -144,7 +144,7 @@ public sealed class Gathering : AggregateRoot
             return Result.Failure<Attendee>(DomainErrors.Gathering.Expired);
         }
 
-        var attendee = invitation.Accept();
+        Attendee attendee = invitation.Accept();
 
         RaiseDomainEvent(new InvitationAcceptedDomainEvent(Guid.NewGuid(), invitation.Id, Id));
 

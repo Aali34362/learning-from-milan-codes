@@ -164,19 +164,6 @@ namespace Gatherly.Persistence.Migrations
                     b.ToTable("OutboxMessages", (string)null);
                 });
 
-            modelBuilder.Entity("Gatherly.Persistence.Outbox.OutboxMessageConsumer", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id", "Name");
-
-                    b.ToTable("OutboxMessageConsumers", (string)null);
-                });
-
             modelBuilder.Entity("Gatherly.Domain.Entities.Attendee", b =>
                 {
                     b.HasOne("Gatherly.Domain.Entities.Gathering", null)

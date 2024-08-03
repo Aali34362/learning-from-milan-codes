@@ -13,6 +13,10 @@ public static class DomainErrors
 
     public static class Gathering
     {
+        public static readonly Func<Guid, Error> NotFound = id => new Error(
+            "Gathering.NotFound",
+            $"The gathering with the identifier {id} was not found.");
+
         public static readonly Error InvitingCreator = new(
             "Gathering.InvitingCreator",
             "Can't send invitation to the gathering creator");

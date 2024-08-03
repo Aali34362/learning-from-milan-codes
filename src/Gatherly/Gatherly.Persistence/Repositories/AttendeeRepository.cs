@@ -5,8 +5,11 @@ namespace Gatherly.Persistence.Repositories;
 
 internal sealed class AttendeeRepository : IAttendeeRepository
 {
-    public void Add(Attendee attendee)
-    {
-        throw new NotImplementedException();
-    }
+    private readonly ApplicationDbContext _dbContext;
+
+    public AttendeeRepository(ApplicationDbContext dbContext) =>
+        _dbContext = dbContext;
+
+    public void Add(Attendee attendee) =>
+        _dbContext.Set<Attendee>().Add(attendee);
 }

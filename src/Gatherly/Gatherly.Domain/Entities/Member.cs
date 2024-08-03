@@ -36,9 +36,7 @@ public sealed class Member : AggregateRoot
             firstName,
             lastName);
 
-        member.RaiseDomainEvent(new MemberRegisteredDomainEvent(
-            Guid.NewGuid(),
-            member.Id));
+        member.RaiseDomainEvent(new MemberRegisteredDomainEvent(Guid.NewGuid(), member.Id));
 
         return member;
     }
