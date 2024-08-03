@@ -1,47 +1,36 @@
-﻿using Dapper;
-using Gatherly.Application.Abstractions;
-using Gatherly.Application.Abstractions.Messaging;
-using Gatherly.Domain.Entities;
-using Gatherly.Domain.Errors;
+﻿using Gatherly.Application.Abstractions.Messaging;
 using Gatherly.Domain.Repositories;
 using Gatherly.Domain.Shared;
-using Microsoft.Data.SqlClient;
 
 namespace Gatherly.Application.Members.GetMemberById;
 
 internal sealed class GetMemberByIdQueryHandler
     : IQueryHandler<GetMemberByIdQuery, MemberResponse>
 {
-    private readonly ISqlConnectionFactory _connectionFactory;
+    private readonly IMemberRepository _memberRepository;
 
-    public GetMemberByIdQueryHandler(ISqlConnectionFactory connectionFactory)
+    public GetMemberByIdQueryHandler(IMemberRepository memberRepository)
     {
-        _connectionFactory = connectionFactory;
+        _memberRepository = memberRepository;
     }
 
     public async Task<Result<MemberResponse>> Handle(
         GetMemberByIdQuery request,
         CancellationToken cancellationToken)
     {
-        await using SqlConnection sqlConnection = _connectionFactory
-            .CreateConnection();
+        var member = await _memberRepository.GetByIdAsync(
+            request.MemberId,
+            cancellationToken);
 
-        MemberResponse? memberResponse = await sqlConnection
-            .QueryFirstOrDefaultAsync<MemberResponse>(
-                @"SELECT Id, Email, FirstName, LastName
-                  FROM Members
-                  WHERE Id = @MemberId",
-                new
-                {
-                    request.MemberId
-                });
-
-        if (memberResponse is null)
+        if (member is null)
         {
-            return Result.Failure<MemberResponse>(
-                DomainErrors.Member.NotFound(request.MemberId));
+            return Result.Failure<MemberResponse>(new Error(
+                "Member.NotFound",
+                $"The member with Id {request.MemberId} was not found"));
         }
 
-        return memberResponse;
+        var response = new MemberResponse(member.Id, member.Email.Value);
+
+        return response;
     }
 }

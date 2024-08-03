@@ -20,7 +20,7 @@ public sealed class MembersController : ApiController
     {
     }
 
-    [HasPermission(Permission.ReadMember)]
+    [HasPermission(Permission.ReadMemberV2)]
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetMemberById(Guid id, CancellationToken cancellationToken)
     {

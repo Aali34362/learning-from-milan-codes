@@ -1,7 +1,3 @@
 ﻿namespace Gatherly.Application.Members.GetMemberById;
 
-public sealed record MemberResponse(
-    Guid Id,
-    string Email,
-    string FirstName,
-    string LastName);
+public sealed record MemberResponse(Guid Id, string Email);

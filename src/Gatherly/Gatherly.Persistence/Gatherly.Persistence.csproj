@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Gatherly.Application\Gatherly.Application.csproj" />
     <ProjectReference Include="..\Gatherly.Domain\Gatherly.Domain.csproj" />
   </ItemGroup>
 

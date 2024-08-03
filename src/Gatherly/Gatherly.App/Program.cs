@@ -18,7 +18,6 @@ using Scrutor;
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<IMemberRepository, MemberRepository>();
-// builder.Services.Decorate<IMemberRepository, CachedMemberRepository>();
 
 builder.Services.AddStackExchangeRedisCache(redisOptions =>
 {
@@ -59,10 +58,7 @@ builder.Services.AddSingleton<ConvertDomainEventsToOutboxMessagesInterceptor>();
 builder.Services.AddSingleton<UpdateAuditableEntitiesInterceptor>();
 
 builder.Services.AddDbContext<ApplicationDbContext>(
-    (sp, optionsBuilder) =>
-    {
-        optionsBuilder.UseSqlServer(connectionString);
-    });
+    (sp, optionsBuilder) => optionsBuilder.UseSqlServer(connectionString));
 
 builder.Services.AddScoped<IJob, ProcessOutboxMessagesJob>();
 
