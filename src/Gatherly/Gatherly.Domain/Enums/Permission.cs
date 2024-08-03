@@ -3,6 +3,5 @@
 public enum Permission
 {
     ReadMember = 1,
-    UpdateMember = 2,
-    ReadMemberV2 = 3
+    UpdateMember = 2
 }
