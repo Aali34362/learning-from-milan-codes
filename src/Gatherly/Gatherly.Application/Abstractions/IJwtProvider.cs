@@ -4,5 +4,5 @@ namespace Gatherly.Application.Abstractions;
 
 public interface IJwtProvider
 {
-    Task<string> GenerateAsync(Member member);
+    string Generate(Member member);
 }
