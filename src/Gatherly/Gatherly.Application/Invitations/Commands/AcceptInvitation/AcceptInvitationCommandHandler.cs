@@ -4,6 +4,7 @@ using Gatherly.Domain.Enums;
 using Gatherly.Domain.Repositories;
 using Gatherly.Domain.Shared;
 using MediatR;
+using InvitationStatus = Gatherly.Domain.Entities.InvitationStatus;
 
 namespace Gatherly.Application.Invitations.Commands.AcceptInvitation;
 
