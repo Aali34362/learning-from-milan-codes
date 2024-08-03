@@ -1,12 +1,12 @@
 ﻿using Gatherly.Application.Abstractions;
-using Gatherly.Application.Abstractions.Messaging;
 using Gatherly.Domain.DomainEvents;
 using Gatherly.Domain.Repositories;
+using MediatR;
 
 namespace Gatherly.Application.Invitations.Events;
 
 internal sealed class InvitationAcceptedDomainEventHandler
-    : IDomainEventHandler<InvitationAcceptedDomainEvent>
+    : INotificationHandler<InvitationAcceptedDomainEvent>
 {
     private readonly IEmailService _emailService;
     private readonly IGatheringRepository _gatheringRepository;
