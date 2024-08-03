@@ -1,5 +1,7 @@
-﻿using Gatherly.Domain.Entities;
+﻿using System.Security.AccessControl;
+using Gatherly.Domain.Entities;
 using Gatherly.Domain.Repositories;
+using Gatherly.Persistence.Specifications;
 using Microsoft.EntityFrameworkCore;
 
 namespace Gatherly.Persistence.Repositories;
@@ -11,56 +13,38 @@ internal sealed class GatheringRepository : IGatheringRepository
     public GatheringRepository(ApplicationDbContext dbContext) =>
         _dbContext = dbContext;
 
-    public async Task<List<Gathering>> GetByCreatorIdAsync(
-        Guid creatorId,
-        CancellationToken cancellationToken = default)
-    {
-        List<Gathering> gatherings = await _dbContext
-            .Set<Gathering>()
-            .Where(gathering => gathering.Creator.Id == creatorId)
+    public async Task<List<Gathering>> GetByNameAsync(
+        string name,
+        CancellationToken cancellationToken = default) =>
+        await ApplySpecification(new GatheringByNameSpecification(name))
             .ToListAsync(cancellationToken);
-
-        return gatherings;
-    }
 
     public async Task<Gathering?> GetByIdAsync(
         Guid id,
-        CancellationToken cancellationToken = default)
-    {
-        Gathering? gathering = await _dbContext
-            .Set<Gathering>()
-            .Include(gathering => gathering.Creator)
-            .Include(gathering => gathering.Attendees)
-            .Include(gathering => gathering.Invitations)
-            .IgnoreQueryFilters()
-            .Where(gathering => gathering.Cancelled)
-            .FirstOrDefaultAsync(
-                gathering => gathering.Id == id,
-                cancellationToken);
-
-        return gathering;
-    }
+        CancellationToken cancellationToken = default) =>
+        await ApplySpecification(new GatheringByIdSplitSpecification(id))
+            .FirstOrDefaultAsync(cancellationToken);
 
     public async Task<Gathering?> GetByIdWithCreatorAsync(
         Guid id,
-        CancellationToken cancellationToken = default)
-    {
-        Gathering? gathering = await _dbContext.Set<Gathering>()
-            .Include(gathering => gathering.Creator)
-            .FirstOrDefaultAsync(g => g.Id == id, cancellationToken);
-
-        return gathering;
-    }
+        CancellationToken cancellationToken = default) =>
+        await ApplySpecification(new GatheringByIdWithCreatorSpecification(id))
+            .FirstOrDefaultAsync(cancellationToken);
 
     public async Task<Gathering?> GetByIdWithInvitationsAsync(
         Guid id,
-        CancellationToken cancellationToken = default)
-    {
-        Gathering? gathering = await _dbContext.Set<Gathering>()
-            .Include(gathering => gathering.Invitations)
-            .FirstOrDefaultAsync(g => g.Id == id, cancellationToken);
+        CancellationToken cancellationToken = default) =>
+        await _dbContext.Set<Gathering>()
+            .Include(g => g.Invitations)
+            .Where(gathering => gathering.Id == id)
+            .FirstOrDefaultAsync(cancellationToken);
 
-        return gathering;
+    private IQueryable<Gathering> ApplySpecification(
+        Specification<Gathering> specification)
+    {
+        return SpecificationEvaluator.GetQuery(
+            _dbContext.Set<Gathering>(),
+            specification);
     }
 
     public void Add(Gathering gathering) =>

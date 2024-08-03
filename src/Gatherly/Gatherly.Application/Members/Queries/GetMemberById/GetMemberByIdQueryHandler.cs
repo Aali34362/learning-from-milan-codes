@@ -22,8 +22,6 @@ internal sealed class GetMemberByIdQueryHandler
             request.MemberId,
             cancellationToken);
 
-        throw new Exception("Intentional exception");
-
         if (member is null)
         {
             return Result.Failure<MemberResponse>(new Error(

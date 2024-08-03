@@ -46,9 +46,6 @@ namespace Gatherly.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool>("Cancelled")
-                        .HasColumnType("bit");
-
                     b.Property<Guid>("CreatorId")
                         .HasColumnType("uniqueidentifier");
 

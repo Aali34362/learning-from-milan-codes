@@ -1,15 +1,20 @@
 using FluentValidation;
-using Gatherly.App.Middlewares;
 using Gatherly.Application.Behaviors;
+using Gatherly.Domain.Repositories;
 using Gatherly.Infrastructure.BackgroundJobs;
 using Gatherly.Infrastructure.Idempotence;
 using Gatherly.Persistence;
 using Gatherly.Persistence.Interceptors;
+using Gatherly.Persistence.Repositories;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Quartz;
+using Scrutor;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddScoped<IMemberRepository, MemberRepository>();
+builder.Services.Decorate<IMemberRepository, CachedMemberRepository>();
 
 builder
     .Services
@@ -19,8 +24,11 @@ builder
                 Gatherly.Infrastructure.AssemblyReference.Assembly,
                 Gatherly.Persistence.AssemblyReference.Assembly)
             .AddClasses(false)
+            .UsingRegistrationStrategy(RegistrationStrategy.Skip)
             .AsImplementedInterfaces()
             .WithScopedLifetime());
+
+builder.Services.AddMemoryCache();
 
 builder.Services.AddMediatR(Gatherly.Application.AssemblyReference.Assembly);
 
@@ -76,10 +84,6 @@ builder
 
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddLogging();
-
-builder.Services.AddTransient<GlobalExceptionHandlingMiddleware>();
-
 WebApplication app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -91,8 +95,6 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-
-app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
 
 app.MapControllers();
 

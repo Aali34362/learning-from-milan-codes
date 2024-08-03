@@ -13,8 +13,6 @@ internal sealed class GatheringConfiguration : IEntityTypeConfiguration<Gatherin
 
         builder.HasKey(x => x.Id);
 
-        builder.HasQueryFilter(x => !x.Cancelled);
-
         builder
             .HasOne(x => x.Creator)
             .WithMany();
