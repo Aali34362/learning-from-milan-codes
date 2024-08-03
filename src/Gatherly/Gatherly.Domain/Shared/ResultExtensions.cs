@@ -23,6 +23,6 @@ public static class ResultExtensions
     {
         return result.IsSuccess ?
             Result.Success(mappingFunc(result.Value)) :
-            Result.Failure<TOut>(result.Error);
+            Result.Failure<TOut>(result.Errors);
     }
 }
