@@ -1,4 +1,5 @@
 ﻿using Gatherly.Application.Members.Commands.CreateMember;
+using Gatherly.Application.Members.Commands.UpdateMember;
 using Gatherly.Application.Members.Queries.GetMemberById;
 using Gatherly.Domain.Shared;
 using Gatherly.Presentation.Abstractions;
@@ -47,5 +48,28 @@ public sealed class MembersController : ApiController
             nameof(GetMemberById),
             new { id = result.Value },
             result.Value);
+    }
+
+    [HttpPut("{id:guid}")]
+    public async Task<IActionResult> UpdateMember(
+        Guid id,
+        [FromBody] UpdateMemberRequest request,
+        CancellationToken cancellationToken)
+    {
+        var command = new UpdateMemberCommand(
+            id,
+            request.FirstName,
+            request.LastName);
+
+        Result result = await Sender.Send(
+            command,
+            cancellationToken);
+
+        if (result.IsFailure)
+        {
+            return HandleFailure(result);
+        }
+
+        return NoContent();
     }
 }

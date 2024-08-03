@@ -26,4 +26,7 @@ internal sealed class MemberRepository : IMemberRepository
 
     public void Add(Member member) =>
         _dbContext.Set<Member>().Add(member);
+
+    public void Update(Member member) =>
+        _dbContext.Set<Member>().Update(member);
 }
