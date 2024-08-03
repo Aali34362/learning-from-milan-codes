@@ -40,6 +40,10 @@ public static class DomainErrors
             "Email.Empty",
             "Email is empty");
 
+        public static readonly Error TooLong = new(
+            "Email.TooLong",
+            "Email is too long");
+
         public static readonly Error InvalidFormat = new(
             "Email.InvalidFormat",
             "Email format is invalid");

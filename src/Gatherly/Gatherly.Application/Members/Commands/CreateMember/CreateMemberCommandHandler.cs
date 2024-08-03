@@ -23,6 +23,12 @@ internal sealed class CreateMemberCommandHandler : ICommandHandler<CreateMemberC
     public async Task<Result<Guid>> Handle(CreateMemberCommand request, CancellationToken cancellationToken)
     {
         Result<Email> emailResult = Email.Create(request.Email);
+
+        if (emailResult.IsFailure)
+        {
+            return Result.Failure<Guid>(emailResult.Error);
+        }
+
         Result<FirstName> firstNameResult = FirstName.Create(request.FirstName);
         Result<LastName> lastNameResult = LastName.Create(request.LastName);
 

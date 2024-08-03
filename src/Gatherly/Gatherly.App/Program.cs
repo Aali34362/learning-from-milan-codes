@@ -19,7 +19,7 @@ builder.Services.Decorate<IMemberRepository, CachedMemberRepository>();
 builder.Services.AddStackExchangeRedisCache(redisOptions =>
 {
     string connection = builder.Configuration
-        .GetConnectionString("Redis");
+        .GetConnectionString("Redis")!;
 
     redisOptions.Configuration = connection;
 });
@@ -48,7 +48,7 @@ builder.Services.AddValidatorsFromAssembly(
     Gatherly.Application.AssemblyReference.Assembly,
     includeInternalTypes: true);
 
-string connectionString = builder.Configuration.GetConnectionString("Database");
+string connectionString = builder.Configuration.GetConnectionString("Database")!;
 
 builder.Services.AddSingleton<ConvertDomainEventsToOutboxMessagesInterceptor>();
 
