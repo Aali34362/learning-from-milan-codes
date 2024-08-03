@@ -1,4 +1,4 @@
-﻿using Gatherly.Domain.Entities;
+﻿using Gatherly.Domain.Enums;
 using MediatR;
 
 namespace Gatherly.Application.Gatherings.Commands.CreateGathering;
