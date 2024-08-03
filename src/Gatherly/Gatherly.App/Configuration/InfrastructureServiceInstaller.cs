@@ -1,5 +1,7 @@
-﻿using Gatherly.Persistence.Interceptors;
+﻿using Gatherly.Domain.Repositories;
+using Gatherly.Persistence.Interceptors;
 using Gatherly.Persistence;
+using Gatherly.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Scrutor;
 
@@ -9,6 +11,8 @@ public class InfrastructureServiceInstaller : IServiceInstaller
 {
     public void Install(IServiceCollection services, IConfiguration configuration)
     {
+        services.AddScoped<IMemberRepository, MemberSqlRepository>();
+
         services
             .Scan(
                 selector => selector
