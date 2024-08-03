@@ -3,6 +3,7 @@ using Gatherly.Application.Members.UpdateMember;
 using Gatherly.Application.Members.GetMemberById;
 using Gatherly.Application.Members.Login;
 using Gatherly.Domain.Shared;
+using Gatherly.Infrastructure.Authentication;
 using Gatherly.Presentation.Abstractions;
 using Gatherly.Presentation.Contracts.Members;
 using MediatR;
@@ -12,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Gatherly.Presentation.Controllers;
 
 [Route("api/members")]
+[HasPermission(Permission.AccessMembers)]
 public sealed class MembersController : ApiController
 {
     public MembersController(ISender sender)
@@ -19,7 +21,7 @@ public sealed class MembersController : ApiController
     {
     }
 
-    [Authorize]
+    [HasPermission(Permission.ReadMember)]
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetMemberById(Guid id, CancellationToken cancellationToken)
     {
