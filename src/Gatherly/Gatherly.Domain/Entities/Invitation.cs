@@ -14,6 +14,10 @@ public sealed class Invitation : Entity
         CreatedOnUtc = DateTime.UtcNow;
     }
 
+    private Invitation()
+    {
+    }
+
     public Guid GatheringId { get; private set; }
 
     public Guid MemberId { get; private set; }
