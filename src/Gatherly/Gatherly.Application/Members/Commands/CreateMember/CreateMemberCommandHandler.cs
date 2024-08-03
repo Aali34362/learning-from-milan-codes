@@ -3,6 +3,7 @@ using Gatherly.Domain.Entities;
 using Gatherly.Domain.Repositories;
 using Gatherly.Domain.Shared;
 using Gatherly.Domain.ValueObjects;
+using MediatR;
 
 namespace Gatherly.Application.Members.Commands.CreateMember;
 

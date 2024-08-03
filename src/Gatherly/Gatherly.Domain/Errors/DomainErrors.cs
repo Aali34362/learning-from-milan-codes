@@ -6,10 +6,6 @@ public static class DomainErrors
 {
     public static class Gathering
     {
-        public static readonly Func<Guid, Error> NotFound = id => new Error(
-            "Gathering.NotFound",
-            $"The gathering with Id {id} was not found");
-
         public static readonly Error InvitingCreator = new(
             "Gathering.InvitingCreator",
             "Can't send invitation to the gathering creator.");
@@ -21,13 +17,6 @@ public static class DomainErrors
         public static readonly Error Expired = new(
             "Gathering.Expired",
             "Can't accept invitation for expired gathering.");
-    }
-
-    public static class Invitation
-    {
-        public static readonly Func<Guid, Error> AlreadyAccepted = id => new Error(
-            "Invitation.AlreadyAccepted",
-            $"The invitation with Id {id} has already been accepted");
     }
 
     public static class Email
