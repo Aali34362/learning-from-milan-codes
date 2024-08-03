@@ -7,12 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Quartz" Version="3.4.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Gatherly.Application\Gatherly.Application.csproj" />
-    <ProjectReference Include="..\Gatherly.Persistence\Gatherly.Persistence.csproj" />
   </ItemGroup>
 
 </Project>
