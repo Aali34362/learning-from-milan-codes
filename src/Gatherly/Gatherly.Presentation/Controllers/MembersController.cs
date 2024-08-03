@@ -40,7 +40,7 @@ public sealed class MembersController : ApiController
 
         if (result.IsFailure)
         {
-            return HandleFailure(result);
+            return BadRequest(result.Error);
         }
         
         return CreatedAtAction(

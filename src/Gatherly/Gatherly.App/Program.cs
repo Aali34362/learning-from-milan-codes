@@ -1,5 +1,3 @@
-using FluentValidation;
-using Gatherly.Application.Behaviors;
 using Gatherly.Infrastructure.BackgroundJobs;
 using Gatherly.Persistence;
 using Gatherly.Persistence.Interceptors;
@@ -22,11 +20,6 @@ builder
 
 builder.Services.AddMediatR(Gatherly.Application.AssemblyReference.Assembly);
 
-builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
-
-builder.Services.AddValidatorsFromAssembly(Gatherly.Application.AssemblyReference.Assembly,
-    includeInternalTypes: true);
-
 string connectionString = builder.Configuration.GetConnectionString("Database");
 
 builder.Services.AddSingleton<ConvertDomainEventsToOutboxMessagesInterceptor>();
@@ -34,10 +27,10 @@ builder.Services.AddSingleton<ConvertDomainEventsToOutboxMessagesInterceptor>();
 builder.Services.AddDbContext<ApplicationDbContext>(
     (sp, optionsBuilder) =>
     {
-        var interceptor = sp.GetService<ConvertDomainEventsToOutboxMessagesInterceptor>();
+        var inteceptor = sp.GetService<ConvertDomainEventsToOutboxMessagesInterceptor>();
 
         optionsBuilder.UseSqlServer(connectionString)
-            .AddInterceptors(interceptor);
+            .AddInterceptors(inteceptor);
     });
 
 builder.Services.AddQuartz(configure =>
