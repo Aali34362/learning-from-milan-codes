@@ -1,4 +1,4 @@
-﻿using Gatherly.Application.Gatherings.Queries.GetGatheringById;
+﻿using Gatherly.Application.Gatherings.GetGatheringById;
 using Gatherly.Domain.Shared;
 using Gatherly.Presentation.Abstractions;
 using MediatR;

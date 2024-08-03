@@ -1,4 +1,5 @@
 using FluentValidation;
+using Gatherly.App.OptionsSetup;
 using Gatherly.Application.Behaviors;
 using Gatherly.Domain.Repositories;
 using Gatherly.Infrastructure.BackgroundJobs;
@@ -7,6 +8,7 @@ using Gatherly.Persistence;
 using Gatherly.Persistence.Interceptors;
 using Gatherly.Persistence.Repositories;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Quartz;
 using Scrutor;
@@ -14,7 +16,7 @@ using Scrutor;
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<IMemberRepository, MemberRepository>();
-builder.Services.Decorate<IMemberRepository, CachedMemberRepository>();
+// builder.Services.Decorate<IMemberRepository, CachedMemberRepository>();
 
 builder.Services.AddStackExchangeRedisCache(redisOptions =>
 {
@@ -86,6 +88,12 @@ builder
 
 builder.Services.AddSwaggerGen();
 
+builder.Services.ConfigureOptions<JwtOptionsSetup>();
+builder.Services.ConfigureOptions<JwtBearerOptionsSetup>();
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer();
+
 WebApplication app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -95,6 +103,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

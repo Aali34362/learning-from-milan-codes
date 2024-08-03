@@ -3,7 +3,6 @@ using Gatherly.Domain.Repositories;
 using Gatherly.Domain.ValueObjects;
 using Gatherly.Persistence.Infrastructure;
 using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
 
 namespace Gatherly.Persistence.Repositories;
@@ -63,6 +62,9 @@ public class CachedMemberRepository : IMemberRepository
 
         return member;
     }
+
+    public Task<Member?> GetByEmailAsync(Email email, CancellationToken cancellationToken = default) =>
+        _decorated.GetByEmailAsync(email, cancellationToken);
 
     public Task<bool> IsEmailUniqueAsync(Email email, CancellationToken cancellationToken = default) =>
         _decorated.IsEmailUniqueAsync(email, cancellationToken);
