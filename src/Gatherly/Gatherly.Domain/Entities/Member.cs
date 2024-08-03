@@ -40,13 +40,21 @@ public sealed class Member : AggregateRoot, IAuditableEntity
             firstName,
             lastName);
 
-        member.RaiseDomainEvent(new MemberRegisteredDomainEvent(Guid.NewGuid(), member.Id));
+        member.RaiseDomainEvent(new MemberRegisteredDomainEvent(
+            Guid.NewGuid(),
+            member.Id));
 
         return member;
     }
 
     public void ChangeName(FirstName firstName, LastName lastName)
     {
+        if (!FirstName.Equals(firstName) || !LastName.Equals(lastName))
+        {
+            RaiseDomainEvent(new MemberNameChangedDomainEvent(
+                Guid.NewGuid(), Id));
+        }
+
         FirstName = firstName;
         LastName = lastName;
     }

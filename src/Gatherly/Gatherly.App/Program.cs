@@ -49,13 +49,7 @@ builder.Services.AddSingleton<UpdateAuditableEntitiesInterceptor>();
 builder.Services.AddDbContext<ApplicationDbContext>(
     (sp, optionsBuilder) =>
     {
-        var outboxInterceptor = sp.GetService<ConvertDomainEventsToOutboxMessagesInterceptor>()!;
-        var auditableInterceptor = sp.GetService<UpdateAuditableEntitiesInterceptor>()!;
-
-        optionsBuilder.UseSqlServer(connectionString)
-            .AddInterceptors(
-                outboxInterceptor,
-                auditableInterceptor);
+        optionsBuilder.UseSqlServer(connectionString);
     });
 
 builder.Services.AddQuartz(configure =>
