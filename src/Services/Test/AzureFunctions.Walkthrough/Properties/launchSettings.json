@@ -1,0 +1,14 @@
+{
+  "profiles": {
+    "AzureFunctions.Walkthrough": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7244"
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "httpPort": 32028,
+      "useSSL": false
+    }
+  }
+}
