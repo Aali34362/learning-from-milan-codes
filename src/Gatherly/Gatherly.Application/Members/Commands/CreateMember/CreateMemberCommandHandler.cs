@@ -20,19 +20,15 @@ internal sealed class CreateMemberCommandHandler : IRequestHandler<CreateMemberC
 
     public async Task<Unit> Handle(CreateMemberCommand request, CancellationToken cancellationToken)
     {
+        var emailResult = Email.Create(request.Email);
         var firstNameResult = FirstName.Create(request.FirstName);
-
-        if (firstNameResult.IsFailure)
-        {
-            // Log error
-            return Unit.Value;
-        }
+        var lastNameResult = LastName.Create(request.LastName);
 
         var member = new Member(
             Guid.NewGuid(),
-            request.Email,
+            emailResult.Value,
             firstNameResult.Value,
-            request.LastName);
+            lastNameResult.Value);
 
         _memberRepository.Add(member);
 

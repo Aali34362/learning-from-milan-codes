@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Gatherly.Domain.Errors;
 using Gatherly.Domain.Primitives;
 using Gatherly.Domain.Shared;
 
@@ -23,16 +19,12 @@ public sealed class FirstName : ValueObject
     {
         if (string.IsNullOrWhiteSpace(firstName))
         {
-            return Result.Failure<FirstName>(new Error(
-                "FirstName.Empty",
-                "First name is empty."));
+            return Result.Failure<FirstName>(DomainErrors.FirstName.Empty);
         }
 
         if (firstName.Length > MaxLength)
         {
-            return Result.Failure<FirstName>(new Error(
-                "FirstName.TooLong",
-                "First name is too long."));
+            return Result.Failure<FirstName>(DomainErrors.FirstName.TooLong);
         }
 
         return new FirstName(firstName);

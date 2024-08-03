@@ -30,7 +30,8 @@ internal sealed class SendInvitationCommandHandler : IRequestHandler<SendInvitat
 
     public async Task<Unit> Handle(SendInvitationCommand request, CancellationToken cancellationToken)
     {
-        var member = await _memberRepository.GetByIdAsync(request.MemberId, cancellationToken);
+        var member = await _memberRepository
+            .GetByIdAsync(request.MemberId, cancellationToken);
 
         var gathering = await _gatheringRepository
             .GetByIdWithCreatorAsync(request.GatheringId, cancellationToken);
@@ -53,7 +54,10 @@ internal sealed class SendInvitationCommandHandler : IRequestHandler<SendInvitat
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         // Send email
-        await _emailService.SendInvitationSentEmailAsync(member, gathering, cancellationToken);
+        await _emailService.SendInvitationSentEmailAsync(
+            member,
+            gathering,
+            cancellationToken);
 
         return Unit.Value;
     }

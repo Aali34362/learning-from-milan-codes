@@ -6,7 +6,7 @@ using Gatherly.Domain.Shared;
 
 namespace Gatherly.Domain.Entities;
 
-public sealed class Gathering : Entity
+public sealed class Gathering : AggregateRoot
 {
     private readonly List<Invitation> _invitations = new();
     private readonly List<Attendee> _attendees = new();
