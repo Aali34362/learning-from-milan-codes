@@ -89,6 +89,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "src\eShop
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EfCore.CompiledQuery.Benchmark", "src\Services\Test\EfCore.CompiledQuery.Benchmark\EfCore.CompiledQuery.Benchmark.csproj", "{17E8AFC3-D17D-412D-8210-706B3DF46D54}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureFunctions.Walkthrough", "src\Services\Test\AzureFunctions.Walkthrough\AzureFunctions.Walkthrough.csproj", "{2F8C1FAE-09CF-4905-BA19-8BF9B26F0EF3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -183,6 +185,10 @@ Global
 		{17E8AFC3-D17D-412D-8210-706B3DF46D54}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{17E8AFC3-D17D-412D-8210-706B3DF46D54}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{17E8AFC3-D17D-412D-8210-706B3DF46D54}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F8C1FAE-09CF-4905-BA19-8BF9B26F0EF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F8C1FAE-09CF-4905-BA19-8BF9B26F0EF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F8C1FAE-09CF-4905-BA19-8BF9B26F0EF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F8C1FAE-09CF-4905-BA19-8BF9B26F0EF3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -230,6 +236,7 @@ Global
 		{865BE9E3-1906-40B9-AB5F-AA609DE3434B} = {D73F4760-5819-4B63-BF39-7C29251C8DB8}
 		{D069EB2A-2F93-441F-AB40-F2E65D8DA40D} = {865BE9E3-1906-40B9-AB5F-AA609DE3434B}
 		{17E8AFC3-D17D-412D-8210-706B3DF46D54} = {A7805952-DAAB-4F43-AB88-47F7EE16BA47}
+		{2F8C1FAE-09CF-4905-BA19-8BF9B26F0EF3} = {A7805952-DAAB-4F43-AB88-47F7EE16BA47}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B0C00772-914D-4F50-BF30-19CA773160B3}
