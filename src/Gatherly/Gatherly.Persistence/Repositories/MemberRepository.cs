@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Gatherly.Persistence.Repositories;
 
-internal sealed class MemberRepository : IMemberRepository
+public sealed class MemberRepository : IMemberRepository
 {
     private readonly ApplicationDbContext _dbContext;
 
