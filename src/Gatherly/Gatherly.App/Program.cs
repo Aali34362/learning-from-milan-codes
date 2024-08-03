@@ -1,4 +1,6 @@
+using Gatherly.Application.Abstractions.Messaging;
 using Gatherly.Infrastructure.BackgroundJobs;
+using Gatherly.Infrastructure.Idempotence;
 using Gatherly.Persistence;
 using Gatherly.Persistence.Interceptors;
 using MediatR;
@@ -20,6 +22,8 @@ builder
 
 builder.Services.AddMediatR(Gatherly.Application.AssemblyReference.Assembly);
 
+builder.Services.Decorate(typeof(INotificationHandler<>), typeof(IdempotentDomainEventHandler<>));
+
 string connectionString = builder.Configuration.GetConnectionString("Database");
 
 builder.Services.AddSingleton<ConvertDomainEventsToOutboxMessagesInterceptor>();
@@ -27,10 +31,10 @@ builder.Services.AddSingleton<ConvertDomainEventsToOutboxMessagesInterceptor>();
 builder.Services.AddDbContext<ApplicationDbContext>(
     (sp, optionsBuilder) =>
     {
-        var inteceptor = sp.GetService<ConvertDomainEventsToOutboxMessagesInterceptor>();
+        var interceptor = sp.GetService<ConvertDomainEventsToOutboxMessagesInterceptor>();
 
         optionsBuilder.UseSqlServer(connectionString)
-            .AddInterceptors(inteceptor);
+            .AddInterceptors(interceptor);
     });
 
 builder.Services.AddQuartz(configure =>
