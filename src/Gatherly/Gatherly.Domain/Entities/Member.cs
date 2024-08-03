@@ -1,11 +1,12 @@
-﻿using Gatherly.Domain.Primitives;
+﻿using Gatherly.Domain.DomainEvents;
+using Gatherly.Domain.Primitives;
 using Gatherly.Domain.ValueObjects;
 
 namespace Gatherly.Domain.Entities;
 
-public sealed class Member : Entity
+public sealed class Member : AggregateRoot
 {
-    public Member(Guid id, Email email, FirstName firstName, LastName lastName)
+    private Member(Guid id, Email email, FirstName firstName, LastName lastName)
         : base(id)
     {
         Email = email;
@@ -13,9 +14,30 @@ public sealed class Member : Entity
         LastName = lastName;
     }
 
+    private Member()
+    {
+    }
+
     public Email Email { get; set; }
 
     public FirstName FirstName { get; set; }
 
     public LastName LastName { get; set; }
+
+    public static Member Create(
+        Guid id,
+        Email email,
+        FirstName firstName,
+        LastName lastName)
+    {
+        var member = new Member(
+            id,
+            email,
+            firstName,
+            lastName);
+
+        member.RaiseDomainEvent(new MemberRegisteredDomainEvent(member.Id));
+
+        return member;
+    }
 }
