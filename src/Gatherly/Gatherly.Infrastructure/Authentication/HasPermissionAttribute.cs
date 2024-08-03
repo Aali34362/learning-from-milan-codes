@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Gatherly.Domain.Enums;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Gatherly.Infrastructure.Authentication;
 

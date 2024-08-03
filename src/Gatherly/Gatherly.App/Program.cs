@@ -35,7 +35,7 @@ builder
                 Gatherly.Persistence.AssemblyReference.Assembly)
             .AddClasses(false)
             .UsingRegistrationStrategy(RegistrationStrategy.Skip)
-            .AsImplementedInterfaces()
+            .AsMatchingInterface()
             .WithScopedLifetime());
 
 builder.Services.AddMemoryCache();
@@ -61,6 +61,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(
     {
         optionsBuilder.UseSqlServer(connectionString);
     });
+
+builder.Services.AddScoped<IJob, ProcessOutboxMessagesJob>();
 
 builder.Services.AddQuartz(configure =>
 {
