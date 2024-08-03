@@ -8,7 +8,11 @@ public sealed class Email : ValueObject
 {
     private Email(string value) => Value = value;
 
-    public string Value { get; }
+    private Email()
+    {
+    }
+
+    public string Value { get; private set; }
 
     public static Result<Email> Create(string email)
     {
