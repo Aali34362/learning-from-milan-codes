@@ -21,30 +21,8 @@ public class DatabaseContext : DbContext
                 .WithOne()
                 .HasForeignKey(employee => employee.CompanyId)
                 .IsRequired();
-
-            builder.HasData(new Company
-            {
-                Id = 1,
-                Name = "Awesome Company"
-            });
         });
 
-        modelBuilder.Entity<Employee>(builder =>
-        {
-            builder.ToTable("Employees");
-
-            var employees = Enumerable
-                .Range(1, 1000)
-                .Select(id => new Employee
-                {
-                    Id = id,
-                    Name = $"Employee #{id}",
-                    Salary = 100.0m,
-                    CompanyId = 1
-                })
-                .ToList();
-
-            builder.HasData(employees);
-        });
+        modelBuilder.Entity<Employee>(builder => builder.ToTable("Employees"));
     }
 }
