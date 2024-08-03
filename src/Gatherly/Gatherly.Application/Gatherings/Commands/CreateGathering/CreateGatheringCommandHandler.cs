@@ -32,7 +32,7 @@ internal sealed class CreateGatheringCommandHandler : IRequestHandler<CreateGath
         var gathering = Gathering.Create(
             Guid.NewGuid(),
             member,
-            (GatheringType)request.Type,
+            request.Type,
             request.ScheduledAtUtc,
             request.Name,
             request.Location,
