@@ -2,7 +2,6 @@
 using Application.Orders.GetOrderSummary;
 using Carter;
 using MediatR;
-using Microsoft.AspNetCore.RateLimiting;
 
 namespace Web.API.Endpoints;
 
