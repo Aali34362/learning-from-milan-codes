@@ -176,6 +176,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SignalRIntro.Api", "SignalR
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SignalRIntro.Api", "src\SignalRIntro.Api\SignalRIntro.Api.csproj", "{540AB8D9-D851-4A12-8F76-F83CC9497741}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EfficientDeleting", "EfficientDeleting", "{99956D36-7324-457B-83BC-FFB3E36BC801}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EfficientDeleting.Api", "src\EfficientDeleting\EfficientDeleting.Api\EfficientDeleting.Api.csproj", "{BB5D894B-DC45-4BE5-A379-65BCFFFE3E43}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -358,6 +362,10 @@ Global
 		{540AB8D9-D851-4A12-8F76-F83CC9497741}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{540AB8D9-D851-4A12-8F76-F83CC9497741}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{540AB8D9-D851-4A12-8F76-F83CC9497741}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB5D894B-DC45-4BE5-A379-65BCFFFE3E43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB5D894B-DC45-4BE5-A379-65BCFFFE3E43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB5D894B-DC45-4BE5-A379-65BCFFFE3E43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB5D894B-DC45-4BE5-A379-65BCFFFE3E43}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -446,6 +454,8 @@ Global
 		{32DBCDCA-E751-41F9-9616-CC71F38DC78D} = {B609C54B-3134-4EED-AB07-EA4B963EDEDC}
 		{EB1E4142-64E4-422D-8684-952D5E86E4FF} = {F34662CF-0CEC-40BE-8226-997E63E2A049}
 		{540AB8D9-D851-4A12-8F76-F83CC9497741} = {EB1E4142-64E4-422D-8684-952D5E86E4FF}
+		{99956D36-7324-457B-83BC-FFB3E36BC801} = {F34662CF-0CEC-40BE-8226-997E63E2A049}
+		{BB5D894B-DC45-4BE5-A379-65BCFFFE3E43} = {99956D36-7324-457B-83BC-FFB3E36BC801}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B0C00772-914D-4F50-BF30-19CA773160B3}
