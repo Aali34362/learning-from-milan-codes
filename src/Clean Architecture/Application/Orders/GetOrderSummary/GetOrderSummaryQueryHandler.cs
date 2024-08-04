@@ -17,11 +17,8 @@ internal sealed class GetOrderSummaryQueryHandler
 
     public async Task<OrderSummary?> Handle(GetOrderSummaryQuery request, CancellationToken cancellationToken)
     {
-        return await _context.Database
-            .SqlQuery<OrderSummary>($@"
-                SELECT *
-                FROM order_summaries
-                WHERE id = {request.OrderId}")
-            .FirstOrDefaultAsync(cancellationToken);
+        return await _context.OrderSummaries
+            .AsNoTracking()
+            .FirstOrDefaultAsync(o => o.Id == request.OrderId, cancellationToken);
     }
 }
