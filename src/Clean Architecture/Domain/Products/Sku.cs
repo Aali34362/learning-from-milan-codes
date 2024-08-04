@@ -3,11 +3,13 @@
 // Stock Keeping Unit
 public record Sku
 {
-    private const int DefaultLength = 15;
+    private const int DefaultLength = 8;
 
     private Sku(string value) => Value = value;
 
     public string Value { get; init; }
+
+    public static explicit operator string(Sku sku) => sku.Value;
 
     public static Sku? Create(string value)
     {

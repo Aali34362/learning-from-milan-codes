@@ -7,7 +7,6 @@ using Carter;
 using Domain.Products;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Web.API.Endpoints;
 
@@ -15,8 +14,14 @@ public class Products : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("products", async (CreateProductCommand command, ISender sender) =>
+        app.MapPost("products", async (CreateProductRequest request, ISender sender) =>
         {
+            var command = new CreateProductCommand(
+                request.Name,
+                request.Sku,
+                request.Currency,
+                request.Amount);
+
             await sender.Send(command);
 
             return Results.Ok();
@@ -35,33 +40,46 @@ public class Products : ICarterModule
             var products = await sender.Send(query);
 
             return Results.Ok(products);
-        });
+        }).WithName("GetProducts");
 
-        app.MapGet("products/{id:guid}", async (Guid id, ISender sender) =>
+        app.MapGet("products/{id:guid}", async (
+            Guid id,
+            ISender sender,
+            LinkGenerator linkGenerator,
+            HttpContext context) =>
         {
             try
             {
-                return Results.Ok(await sender.Send(new GetProductQuery(new ProductId(id))));
+                var productResponse = await sender.Send(new GetProductQuery(new ProductId(id)));
+
+                return Results.Ok(productResponse);
             }
             catch (ProductNotFoundException e)
             {
                 return Results.NotFound(e.Message);
             }
-        });
+        }).WithName("GetProduct");
 
         app.MapPut("products/{id:guid}", async (Guid id, [FromBody] UpdateProductRequest request, ISender sender) =>
         {
-            var command = new UpdateProductCommand(
-                new ProductId(id),
-                request.Name,
-                request.Sku,
-                request.Currency,
-                request.Amount);
-            
-            await sender.Send(command);
+            try
+            {
+                var command = new UpdateProductCommand(
+                    new ProductId(id),
+                    request.Name,
+                    request.Sku,
+                    request.Currency,
+                    request.Amount);
 
-            return Results.NoContent();
-        });
+                await sender.Send(command);
+
+                return Results.NoContent();
+            }
+            catch (ProductNotFoundException e)
+            {
+                return Results.NotFound(e.Message);
+            }
+        }).WithName("UpdateProduct");
 
         app.MapDelete("products/{id:guid}", async (Guid id, ISender sender) =>
         {
@@ -75,6 +93,6 @@ public class Products : ICarterModule
             {
                 return Results.NotFound(e.Message);
             }
-        });
+        }).WithName("DeleteProduct");
     }
 }

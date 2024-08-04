@@ -7,3 +7,9 @@ public record CreateProductCommand(
     string Sku,
     string Currency,
     decimal Amount) : IRequest;
+
+public record CreateProductRequest(
+    string Name,
+    string Sku,
+    string Currency,
+    decimal Amount);

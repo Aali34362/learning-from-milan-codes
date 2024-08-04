@@ -1,4 +1,4 @@
-﻿using MediatR.NotificationPublishers;
+﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Application;
@@ -10,9 +10,9 @@ public static class DependencyInjection
         services.AddMediatR(config =>
         {
             config.RegisterServicesFromAssemblyContaining<ApplicationAssemblyReference>();
-
-            config.NotificationPublisher = new TaskWhenAllPublisher();
         });
+
+        services.AddValidatorsFromAssembly(ApplicationAssemblyReference.Assembly);
 
         return services;
     }

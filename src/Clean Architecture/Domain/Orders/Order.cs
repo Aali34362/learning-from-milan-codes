@@ -1,9 +1,10 @@
 ﻿using Domain.Customers;
+using Domain.Primitives;
 using Domain.Products;
 
 namespace Domain.Orders;
 
-public class Order
+public class Order : Entity
 {
     private readonly List<LineItem> _lineItems = new();
 
@@ -17,8 +18,6 @@ public class Order
 
     public IReadOnlyList<LineItem> LineItems => _lineItems.ToList();
 
-    public bool IsCancelled { get; private set; }
-
     public static Order Create(CustomerId customerId)
     {
         var order = new Order
@@ -27,12 +26,12 @@ public class Order
             CustomerId = customerId
         };
 
+        order.Raise(new OrderCreatedDomainEvent(Guid.NewGuid(), order.Id));
+
         return order;
     }
 
-    public void Cancel() => IsCancelled = true;
-
-    public void Add(ProductId productId, Money price)
+    public void AddLineItem(ProductId productId, Money price)
     {
         var lineItem = new LineItem(
             new LineItemId(Guid.NewGuid()),
@@ -41,10 +40,17 @@ public class Order
             price);
 
         _lineItems.Add(lineItem);
+
+        Raise(new LineItemAddedDomainEvent(Guid.NewGuid(), Id, lineItem.Id));
     }
 
     public void RemoveLineItem(LineItemId lineItemId)
     {
+        if (HasOneLineItem())
+        {
+            return;
+        }
+
         var lineItem = _lineItems.FirstOrDefault(li => li.Id == lineItemId);
 
         if (lineItem is null)
@@ -53,5 +59,9 @@ public class Order
         }
 
         _lineItems.Remove(lineItem);
+
+        Raise(new LineItemRemovedDomainEvent(Guid.NewGuid(), Id, lineItem.Id));
     }
+
+    private bool HasOneLineItem() => _lineItems.Count == 1;
 }

@@ -17,16 +17,23 @@ internal sealed class GetOrderQueryHandler :
 
     public async Task<OrderResponse> Handle(GetOrderQuery request, CancellationToken cancellationToken)
     {
+        var orderId = new OrderId(request.OrderId);
+
         var orderResponse = await _context
             .Orders
-            .Where(o => o.Id == new OrderId(request.OrderId))
+            .Where(o => o.Id == orderId)
             .Select(o => new OrderResponse(
                 o.Id.Value,
                 o.CustomerId.Value,
                 o.LineItems
                     .Select(li => new LineItemResponse(li.Id.Value, li.Price.Amount))
                     .ToList()))
-            .SingleAsync(cancellationToken);
+            .FirstOrDefaultAsync(cancellationToken);
+
+        if (orderResponse is null)
+        {
+            throw new OrderNotFoundException(orderId);
+        }
 
         return orderResponse;
     }
