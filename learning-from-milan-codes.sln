@@ -274,6 +274,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "src\Architecture\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persistence", "src\Architecture\OnionArchitecture\Persistence\Persistence.csproj", "{E5E2F2ED-26A8-4A59-B7E6-83126DA241BB}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EF.ComplextTypes", "EF.ComplextTypes", "{72A6D1BE-2226-47B1-B9AF-9D44B945ACCF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EF.ComplexTypes", "src\Open\EF.ComplextTypes\EF.ComplexTypes.csproj", "{8CCDD488-3F14-44F3-99BE-EEA78B43FFC9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -540,6 +544,10 @@ Global
 		{E5E2F2ED-26A8-4A59-B7E6-83126DA241BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E5E2F2ED-26A8-4A59-B7E6-83126DA241BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E5E2F2ED-26A8-4A59-B7E6-83126DA241BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CCDD488-3F14-44F3-99BE-EEA78B43FFC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CCDD488-3F14-44F3-99BE-EEA78B43FFC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CCDD488-3F14-44F3-99BE-EEA78B43FFC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CCDD488-3F14-44F3-99BE-EEA78B43FFC9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -676,6 +684,8 @@ Global
 		{390CAA50-686A-402E-9C37-2B4AA4316CBC} = {81DE2491-B1BE-4904-A004-50C7913D6135}
 		{03261049-4E2A-448A-816B-773967244FFA} = {00943B9F-5371-4E70-9F75-D23413CABF7A}
 		{E5E2F2ED-26A8-4A59-B7E6-83126DA241BB} = {153AA093-C8AC-44F3-9D96-085E2BB37014}
+		{72A6D1BE-2226-47B1-B9AF-9D44B945ACCF} = {CB3D8CA7-C891-4B88-80AB-65AB4044E6DA}
+		{8CCDD488-3F14-44F3-99BE-EEA78B43FFC9} = {72A6D1BE-2226-47B1-B9AF-9D44B945ACCF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B0C00772-914D-4F50-BF30-19CA773160B3}
