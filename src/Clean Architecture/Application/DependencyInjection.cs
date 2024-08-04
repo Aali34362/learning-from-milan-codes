@@ -1,4 +1,5 @@
 ﻿using Application.Behaviors;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Application;
@@ -13,6 +14,8 @@ public static class DependencyInjection
 
             config.AddOpenBehavior(typeof(UnitOfWorkBehavior<,>));
         });
+
+        services.AddValidatorsFromAssembly(ApplicationAssemblyReference.Assembly);
 
         return services;
     }

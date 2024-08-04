@@ -17,4 +17,14 @@ internal sealed class CustomerRepository : ICustomerRepository
         return _context.Customers
             .SingleOrDefaultAsync(c => c.Id == id);
     }
+
+    public async Task<bool> IsEmailUniqueAsync(string email)
+    {
+        return !await _context.Customers.AnyAsync(c => c.Email == email);
+    }
+
+    public void Add(Customer customer)
+    {
+        _context.Customers.Add(customer);
+    }
 }
