@@ -1,4 +1,5 @@
-﻿using Domain.Orders;
+﻿using Application.Data;
+using Domain.Orders;
 using MediatR;
 
 namespace Application.Orders.RemoveLineItem;
@@ -6,10 +7,12 @@ namespace Application.Orders.RemoveLineItem;
 internal sealed class RemoveLineItemCommandHandler : IRequestHandler<RemoveLineItemCommand>
 {
     private readonly IOrderRepository _orderRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public RemoveLineItemCommandHandler(IOrderRepository orderRepository)
+    public RemoveLineItemCommandHandler(IOrderRepository orderRepository, IUnitOfWork unitOfWork)
     {
         _orderRepository = orderRepository;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task Handle(RemoveLineItemCommand request, CancellationToken cancellationToken)
@@ -22,5 +25,7 @@ internal sealed class RemoveLineItemCommandHandler : IRequestHandler<RemoveLineI
         }
 
         order.RemoveLineItem(request.LineItemId);
+
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 }

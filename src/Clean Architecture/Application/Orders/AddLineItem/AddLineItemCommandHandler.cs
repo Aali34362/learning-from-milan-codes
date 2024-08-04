@@ -1,4 +1,5 @@
-﻿using Domain.Orders;
+﻿using Application.Data;
+using Domain.Orders;
 using Domain.Products;
 using MediatR;
 
@@ -8,11 +9,16 @@ internal sealed class AddLineItemCommandHandler : IRequestHandler<AddLineItemCom
 {
     private readonly IOrderRepository _orderRepository;
     private readonly IProductRepository _productRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public AddLineItemCommandHandler(IOrderRepository orderRepository, IProductRepository productRepository)
+    public AddLineItemCommandHandler(
+        IOrderRepository orderRepository,
+        IProductRepository productRepository,
+        IUnitOfWork unitOfWork)
     {
         _orderRepository = orderRepository;
         _productRepository = productRepository;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task Handle(AddLineItemCommand request, CancellationToken cancellationToken)
@@ -32,5 +38,7 @@ internal sealed class AddLineItemCommandHandler : IRequestHandler<AddLineItemCom
         }
 
         order.AddLineItem(product.Id, new Money(request.Currency, request.Amount));
+
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 }
