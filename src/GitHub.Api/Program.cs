@@ -1,5 +1,5 @@
 using GitHub.Api;
-using Microsoft.Extensions.Options;
+using GitHub.Api.DelegatingHandlers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,31 +11,17 @@ builder.Services.AddOptions<GitHubSettings>()
     .ValidateDataAnnotations()
     .ValidateOnStart();
 
-builder.Services.AddHttpClient("github", (serviceProvider, httpClient) =>
+builder.Services.AddTransient<RetryHandler>();
+builder.Services.AddTransient<LoggingHandler>();
+builder.Services.AddTransient<GitHubAuthenticationHandler>();
+
+builder.Services.AddHttpClient<GitHubService>(httpClient =>
 {
-    var gitHubSettings = serviceProvider.GetRequiredService<IOptions<GitHubSettings>>().Value;
-
-    httpClient.DefaultRequestHeaders.Add("Authorization", gitHubSettings.AccessToken);
-    httpClient.DefaultRequestHeaders.Add("User-Agent", gitHubSettings.UserAgent);
-    httpClient.BaseAddress = new Uri("https://api.github.com");
-});
-
-builder.Services.AddHttpClient<GitHubService>((serviceProvider, httpClient) =>
-{
-    var gitHubSettings = serviceProvider.GetRequiredService<IOptions<GitHubSettings>>().Value;
-
-    httpClient.DefaultRequestHeaders.Add("Authorization", gitHubSettings.AccessToken);
-    httpClient.DefaultRequestHeaders.Add("User-Agent", gitHubSettings.UserAgent);
     httpClient.BaseAddress = new Uri("https://api.github.com");
 })
-.ConfigurePrimaryHttpMessageHandler(() =>
-{
-    return new SocketsHttpHandler
-    {
-        PooledConnectionLifetime = TimeSpan.FromMinutes(5)
-    };
-})
-.SetHandlerLifetime(Timeout.InfiniteTimeSpan);
+.AddHttpMessageHandler<RetryHandler>()
+.AddHttpMessageHandler<LoggingHandler>()
+.AddHttpMessageHandler<GitHubAuthenticationHandler>();
 
 var app = builder.Build();
 
