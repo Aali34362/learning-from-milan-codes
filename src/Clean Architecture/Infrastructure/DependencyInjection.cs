@@ -1,18 +1,22 @@
-﻿using Application.Abstractions;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Quartz;
 
 namespace Infrastructure;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddInfrastructure(this IServiceCollection services)
+    public static void AddInfrastructure(this IServiceCollection services)
     {
-        services.AddTransient<IEmailService, EmailService>();
+        services.AddQuartz(options =>
+        {
+            options.UseMicrosoftDependencyInjectionJobFactory();
+        });
 
-        services.AddTransient<IStockService, StockService>();
+        services.AddQuartzHostedService(options =>
+        {
+            options.WaitForJobsToComplete = true;
+        });
 
-        services.AddTransient<IPaymentService, PaymentService>();
-
-        return services;
+        services.ConfigureOptions<LoggingBackgroundJobSetup>();
     }
 }

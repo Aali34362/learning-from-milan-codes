@@ -40,7 +40,7 @@ public class Products : ICarterModule
             var products = await sender.Send(query);
 
             return Results.Ok(products);
-        }).WithName("GetProducts").RequireRateLimiting("fixed");
+        }).WithName("GetProducts");
 
         app.MapGet("products/{id:guid}", async (
             Guid id,
