@@ -1,9 +1,12 @@
-﻿using Application.Orders.Create;
+﻿using Application.Orders.AddLineItem;
+using Application.Orders.Create;
 using Application.Orders.GetOrderSummary;
 using Application.Orders.RemoveLineItem;
 using Carter;
 using Domain.Orders;
+using Domain.Products;
 using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Web.API.Endpoints;
 
@@ -14,6 +17,22 @@ public class Orders : ICarterModule
         app.MapPost("orders", async (Guid customerId, ISender sender) =>
         {
             var command = new CreateOrderCommand(customerId);
+
+            await sender.Send(command);
+
+            return Results.Ok();
+        });
+
+        app.MapPut("orders/{id}/line-items", async (
+            Guid id,
+            [FromBody] AddLineItemRequest request,
+            ISender sender) =>
+        {
+            var command = new AddLineItemCommand(
+                new OrderId(id),
+                new ProductId(request.ProductId),
+                request.Currency,
+                request.Amount);
 
             await sender.Send(command);
 

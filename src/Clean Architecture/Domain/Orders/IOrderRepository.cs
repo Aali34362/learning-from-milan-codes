@@ -2,9 +2,7 @@
 
 public interface IOrderRepository
 {
-    Task<Order?> GetByIdWithLineItemAsync(OrderId id, LineItemId lineItemId);
-
-    bool HasOneLineItem(Order order);
+    Task<Order?> GetByIdAsync(OrderId id);
 
     void Add(Order order);
 }

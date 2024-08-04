@@ -12,16 +12,11 @@ internal sealed class OrderRepository : IOrderRepository
         _context = context;
     }
 
-    public Task<Order?> GetByIdWithLineItemAsync(OrderId id, LineItemId lineItemId)
+    public Task<Order?> GetByIdAsync(OrderId id)
     {
         return _context.Orders
-            .Include(o => o.LineItems.Where(li => li.Id == lineItemId))
+            .Include(o => o.LineItems)
             .SingleOrDefaultAsync(o => o.Id == id);
-    }
-
-    public bool HasOneLineItem(Order order)
-    {
-        return _context.LineItems.Count(li => li.OrderId == order.Id) == 1;
     }
 
     public void Add(Order order)

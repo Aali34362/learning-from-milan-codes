@@ -14,15 +14,13 @@ internal sealed class RemoveLineItemCommandHandler : IRequestHandler<RemoveLineI
 
     public async Task Handle(RemoveLineItemCommand request, CancellationToken cancellationToken)
     {
-        var order = await _orderRepository.GetByIdWithLineItemAsync(
-            request.OrderId,
-            request.LineItemId);
+        var order = await _orderRepository.GetByIdAsync(request.OrderId);
 
         if (order is null)
         {
             return;
         }
 
-        order.RemoveLineItem(request.LineItemId, _orderRepository);
+        order.RemoveLineItem(request.LineItemId);
     }
 }
