@@ -5,10 +5,9 @@ using Dapper;
 using Domain.Users;
 using SharedKernel;
 
-namespace Application.Users.GetByEmail;
+namespace Application.Users.GetById;
 
-internal sealed class GetUserByEmailQueryHandler
-    : IQueryHandler<GetUserByEmailQuery, UserResponse>
+internal sealed class GetUserByEmailQueryHandler : IQueryHandler<GetUserByEmailQuery, UserResponse>
 {
     private readonly IDbConnectionFactory _dbConnectionFactory;
 
@@ -28,7 +27,7 @@ internal sealed class GetUserByEmailQueryHandler
             WHERE u.Email = @Email
             """;
 
-        UserResponse? user = await connection.QueryFirstOrDefaultAsync(
+        UserResponse? user = await connection.QueryFirstOrDefaultAsync<UserResponse>(
             sql,
             new { query.Email });
 

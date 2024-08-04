@@ -5,5 +5,5 @@ namespace Application.Abstractions.Data;
 
 public interface IApplicationDbContext
 {
-    DbSet<User> Users { get; }
+    DbSet<User> Users { get; set; }
 }

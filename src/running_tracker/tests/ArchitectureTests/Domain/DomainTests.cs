@@ -42,10 +42,10 @@ public class DomainTests : BaseTest
             .GetTypes();
 
         var failingTypes = new List<Type>();
-        foreach (Type entityType in entityTypes)
+        foreach (var entityType in entityTypes)
         {
-            ConstructorInfo[] constructors = entityType.GetConstructors(BindingFlags.NonPublic |
-                                                                        BindingFlags.Instance);
+            var constructors = entityType.GetConstructors(BindingFlags.NonPublic |
+                                                          BindingFlags.Instance);
 
             if (!constructors.Any(c => c.IsPrivate && c.GetParameters().Length == 0))
             {

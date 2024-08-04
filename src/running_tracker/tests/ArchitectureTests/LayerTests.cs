@@ -8,7 +8,7 @@ public class LayerTests : BaseTest
     [Fact]
     public void Domain_Should_NotHaveDependencyOnApplication()
     {
-        TestResult result = Types.InAssembly(DomainAssembly)
+        var result = Types.InAssembly(DomainAssembly)
             .Should()
             .NotHaveDependencyOn("Application")
             .GetResult();
