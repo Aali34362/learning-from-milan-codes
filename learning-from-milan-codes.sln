@@ -147,6 +147,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Supabase.Tutorial", "Supaba
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Supabase.Tutorial", "src\Supabase.Tutorial\Supabase.Tutorial.csproj", "{F93165ED-772E-4142-8312-AF4AE0D7B49F}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web.API", "src\Clean Architecture\Web.API\Web.API.csproj", "{516E4410-BDCF-4514-816E-FC34477C5B45}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -297,6 +299,10 @@ Global
 		{F93165ED-772E-4142-8312-AF4AE0D7B49F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F93165ED-772E-4142-8312-AF4AE0D7B49F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F93165ED-772E-4142-8312-AF4AE0D7B49F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{516E4410-BDCF-4514-816E-FC34477C5B45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{516E4410-BDCF-4514-816E-FC34477C5B45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{516E4410-BDCF-4514-816E-FC34477C5B45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{516E4410-BDCF-4514-816E-FC34477C5B45}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -373,6 +379,7 @@ Global
 		{27DA8CE7-81CE-45FB-9A3F-640F254CFEC1} = {4475216F-95D1-40AC-B8A7-851B9B2A823B}
 		{BBA0DA6D-6B98-4E65-A2F3-41F98A3929B3} = {F34662CF-0CEC-40BE-8226-997E63E2A049}
 		{F93165ED-772E-4142-8312-AF4AE0D7B49F} = {BBA0DA6D-6B98-4E65-A2F3-41F98A3929B3}
+		{516E4410-BDCF-4514-816E-FC34477C5B45} = {E14E5A66-9FE0-47AE-B337-83DBF791D370}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B0C00772-914D-4F50-BF30-19CA773160B3}

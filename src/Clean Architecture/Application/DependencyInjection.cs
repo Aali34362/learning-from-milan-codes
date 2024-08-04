@@ -11,7 +11,7 @@ public static class DependencyInjection
         {
             config.RegisterServicesFromAssemblyContaining<ApplicationAssemblyReference>();
 
-            config.NotificationPublisher = new ForeachAwaitPublisher();
+            config.NotificationPublisher = new TaskWhenAllPublisher();
         });
 
         return services;
