@@ -25,7 +25,7 @@ internal sealed class AcceptInvitationCommandHandler : IRequestHandler<AcceptInv
     public async Task<Unit> Handle(AcceptInvitationCommand request, CancellationToken cancellationToken)
     {
         var gathering = await _gatheringRepository
-            .GetByIdWithInvitationsAsync(request.GatheringId, cancellationToken);
+            .GetByIdWithCreatorAsync(request.GatheringId, cancellationToken);
 
         if (gathering is null)
         {
@@ -40,27 +40,14 @@ internal sealed class AcceptInvitationCommandHandler : IRequestHandler<AcceptInv
             return Unit.Value;
         }
 
-        using var transaction = _unitOfWork.BeginTransaction();
+        Result<Attendee> attendeeResult = gathering.AcceptInvitation(invitation);
 
-        try
+        if (attendeeResult.IsSuccess)
         {
-            Result<Attendee> attendeeResult = gathering.AcceptInvitation(invitation);
-
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
-
-            if (attendeeResult.IsSuccess)
-            {
-                _attendeeRepository.Add(attendeeResult.Value);
-
-                await _unitOfWork.SaveChangesAsync(cancellationToken);
-            }
-
-            transaction.Commit();
+            _attendeeRepository.Add(attendeeResult.Value);
         }
-        catch (Exception)
-        {
-            transaction.Rollback();
-        }
+
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Unit.Value;
     }
