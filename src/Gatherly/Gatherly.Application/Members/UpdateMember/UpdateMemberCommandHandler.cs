@@ -34,12 +34,10 @@ internal sealed class UpdateMemberCommandHandler : ICommandHandler<UpdateMemberC
                 DomainErrors.Member.NotFound(request.MemberId));
         }
 
-        Result<FirstName> firstNameResult = FirstName.Create(request.FirstName);
-        Result<LastName> lastNameResult = LastName.Create(request.LastName);
+        var firstName = FirstName.Create(request.FirstName);
+        var lastName = LastName.Create(request.LastName);
 
-        member.ChangeName(
-            firstNameResult.Value,
-            lastNameResult.Value);
+        member.ChangeName(firstName, lastName);
 
         _memberRepository.Update(member);
 

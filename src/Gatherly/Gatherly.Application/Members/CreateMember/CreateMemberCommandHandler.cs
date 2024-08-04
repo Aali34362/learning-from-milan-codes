@@ -29,9 +29,6 @@ internal sealed class CreateMemberCommandHandler : ICommandHandler<CreateMemberC
             return Result.Failure<Guid>(emailResult.Error);
         }
 
-        Result<FirstName> firstNameResult = FirstName.Create(request.FirstName);
-        Result<LastName> lastNameResult = LastName.Create(request.LastName);
-
         if (!await _memberRepository.IsEmailUniqueAsync(emailResult.Value, cancellationToken))
         {
             return Result.Failure<Guid>(DomainErrors.Member.EmailAlreadyInUse);
@@ -40,8 +37,8 @@ internal sealed class CreateMemberCommandHandler : ICommandHandler<CreateMemberC
         var member = Member.Create(
             Guid.NewGuid(),
             emailResult.Value,
-            firstNameResult.Value,
-            lastNameResult.Value);
+            FirstName.Create(request.FirstName),
+            LastName.Create(request.LastName));
 
         _memberRepository.Add(member);
 

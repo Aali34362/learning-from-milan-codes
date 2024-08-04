@@ -1,5 +1,6 @@
 ﻿using Gatherly.Domain.Enums;
 using Gatherly.Domain.Primitives;
+using Gatherly.Domain.Shared;
 
 namespace Gatherly.Domain.Entities;
 
@@ -8,6 +9,9 @@ public sealed class Invitation : Entity
     internal Invitation(Guid id, Member member, Gathering gathering)
         : base(id)
     {
+        Ensure.NotNull(member);
+        Ensure.NotNull(gathering);
+
         MemberId = member.Id;
         GatheringId = gathering.Id;
         Status = InvitationStatus.Pending;

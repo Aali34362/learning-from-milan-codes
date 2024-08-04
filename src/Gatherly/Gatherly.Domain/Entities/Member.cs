@@ -1,5 +1,7 @@
 ﻿using Gatherly.Domain.DomainEvents;
+using Gatherly.Domain.Errors;
 using Gatherly.Domain.Primitives;
+using Gatherly.Domain.Shared;
 using Gatherly.Domain.ValueObjects;
 
 namespace Gatherly.Domain.Entities;
@@ -53,8 +55,7 @@ public sealed class Member : AggregateRoot, IAuditableEntity
     {
         if (!FirstName.Equals(firstName) || !LastName.Equals(lastName))
         {
-            RaiseDomainEvent(new MemberNameChangedDomainEvent(
-                Guid.NewGuid(), Id));
+            RaiseDomainEvent(new MemberNameChangedDomainEvent(Guid.NewGuid(), Id));
         }
 
         FirstName = firstName;

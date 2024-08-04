@@ -33,8 +33,8 @@ internal sealed class GetGatheringByIdQueryHandler
             gathering.Id,
             gathering.Name,
             gathering.Location,
-            $"{gathering.Creator.FirstName.Value}" +
-            $" {gathering.Creator.LastName.Value}",
+            $"{gathering.Creator.FirstName}" +
+            $" {gathering.Creator.LastName}",
             gathering
                 .Attendees
                 .Select(attendee => new AttendeeResponse(

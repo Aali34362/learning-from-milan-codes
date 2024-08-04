@@ -1,8 +1,10 @@
-﻿using FluentValidation;
+﻿using Ardalis.GuardClauses;
+using FluentValidation;
 using Gatherly.App.OptionsSetup;
 using Gatherly.Application.Abstractions;
 using Gatherly.Application.Behaviors;
 using Gatherly.Domain.Repositories;
+using Gatherly.Domain.Shared;
 using Gatherly.Infrastructure.Authentication;
 using Gatherly.Infrastructure.BackgroundJobs;
 using Gatherly.Infrastructure.Services;
@@ -13,7 +15,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Quartz;
-using Scrutor;
+using Throw;
 
 namespace Gatherly.App.DependencyInjection;
 
@@ -91,22 +93,24 @@ public static class DependencyInjectionExtensions
     public static IServiceCollection AddInfrastructure(this IServiceCollection services)
     {
         services.AddScoped<IMemberRepository, MemberRepository>();
-        services.Decorate<IMemberRepository, CachingMemberRepository>();
+        services.AddScoped<IAttendeeRepository, AttendeeRepository>();
+        services.AddScoped<IGatheringRepository, GatheringRepository>();
+        services.AddScoped<IInvitationRepository, InvitationRepository>();
 
-        services.Scan(selector => selector.FromAssemblies(
-                Infrastructure.AssemblyReference.Assembly,
-                Persistence.AssemblyReference.Assembly)
-            .AddClasses(false)
-            .UsingRegistrationStrategy(RegistrationStrategy.Skip)
-            .AsMatchingInterface()
-            .WithScopedLifetime());
+        services.AddScoped<IEmailService, EmailService>();
 
         return services;
     }
 
     public static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
     {
-        string connectionString = configuration.GetConnectionString("Database")!;
+        string? connectionString = configuration.GetConnectionString("Database");
+
+        Ensure.NotNullOrWhiteSpace(connectionString);
+
+        Guard.Against.NullOrWhiteSpace(connectionString);
+
+        connectionString.ThrowIfNull();
 
         services.AddSingleton<ConvertDomainEventsToOutboxMessagesInterceptor>();
 
