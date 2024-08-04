@@ -1,0 +1,23 @@
+<Project>
+  <PropertyGroup>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <AnalysisMode>All</AnalysisMode>
+	<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+	<CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference 
+      Include="StyleCop.Analyzers" 
+      Version="1.2.0-beta.406"
+      PrivateAssets="all" 
+      Condition="$(MSBuildProjectExtension) == '.csproj'" 
+    />
+    <PackageReference
+      Include="SonarAnalyzer.CSharp"
+      Version="8.44.0.52574"
+      PrivateAssets="all"
+      Condition="$(MSBuildProjectExtension) == '.csproj'"
+    />
+  </ItemGroup>
+</Project>

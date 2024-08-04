@@ -1,0 +1,14 @@
+{
+  "Servers": {
+    "1": {
+      "Name": "Development Server",
+      "Group": "Servers",
+      "Host": "trainersphere-db",
+      "Port": 5432,
+      "MaintenanceDB": "postgres",
+      "Username": "postgres",
+      "SSLMode": "prefer",
+      "Timeout": 60
+    }
+  }
+}

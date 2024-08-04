@@ -1,0 +1,37 @@
+version: '3.4'
+
+services:
+  trainersphere-app:
+    image: ${DOCKER_REGISTRY-}app
+    container_name: App
+    build:
+      context: .
+      dockerfile: src/App/Dockerfile
+    depends_on:
+      - trainersphere-db
+
+  trainersphere-db:
+    image: postgres:14.1
+    container_name: Database
+    environment:
+      - POSTGRES_DB=trainersphere
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./.containers/database:/var/lib/postgresql/data
+    ports:
+      - 5100:5432
+
+  trainersphere-db-management:
+    image: dpage/pgadmin4:latest
+    container_name: Database_management
+    depends_on:
+      - trainersphere-db
+    volumes:
+      - ./.files/dev_servers.json:/pgadmin4/servers.json
+      - ./.containers/database_management:/var/lib/pgadmin
+    ports:
+      - "5101:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin

@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.2.1" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Polly" Version="7.2.3" />
+    <PackageReference Include="Quartz" Version="3.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\Infrastructure\Infrastructure.csproj" />
+    <ProjectReference Include="..\Modules.Training.Application\Modules.Training.Application.csproj" />
+    <ProjectReference Include="..\Modules.Training.Endpoints\Modules.Training.Endpoints.csproj" />
+    <ProjectReference Include="..\Modules.Training.Persistence\Modules.Training.Persistence.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\Application\Application.csproj" />
+    <ProjectReference Include="..\..\Training\Modules.Training.IntegrationEvents\Modules.Training.IntegrationEvents.csproj" />
+    <ProjectReference Include="..\Modules.Users.Domain\Modules.Users.Domain.csproj" />
+    <ProjectReference Include="..\Modules.Users.IntegrationEvents\Modules.Users.IntegrationEvents.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <_Parameter1>Modules.Users.Application.UnitTests</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+
+</Project>
