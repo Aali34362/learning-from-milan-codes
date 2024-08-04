@@ -5,7 +5,7 @@ namespace Domain.Orders;
 
 public class Order
 {
-    private readonly HashSet<LineItem> _lineItems = new();
+    private readonly List<LineItem> _lineItems = new();
 
     private Order()
     {
