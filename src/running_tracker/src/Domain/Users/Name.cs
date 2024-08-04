@@ -1,4 +1,6 @@
-﻿namespace Domain.Users;
+﻿using SharedKernel;
+
+namespace Domain.Users;
 
 public sealed record Name
 {

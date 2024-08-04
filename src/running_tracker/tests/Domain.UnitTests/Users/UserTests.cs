@@ -9,7 +9,7 @@ public class UserTests
     public void Create_Should_CreateUser_WhenNameIsValid()
     {
         // Arrange
-        var email = Email.Create("test@test.com").Value;
+        Email email = Email.Create("test@test.com").Value;
         var name = new Name("Full Name");
 
         // Act
@@ -23,7 +23,7 @@ public class UserTests
     public void Create_Should_RaiseDomainEvent_WhenNameIsValid()
     {
         // Arrange
-        var email = Email.Create("test@test.com").Value;
+        Email email = Email.Create("test@test.com").Value;
         var name = new Name("Full Name");
 
         // Act

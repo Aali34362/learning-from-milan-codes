@@ -10,7 +10,7 @@ public class DomainTests : BaseTest
     [Fact]
     public void DomainEvents_Should_BeSealed()
     {
-        var result = Types.InAssembly(DomainAssembly)
+        TestResult result = Types.InAssembly(DomainAssembly)
             .That()
             .ImplementInterface(typeof(IDomainEvent))
             .Should()
@@ -23,7 +23,7 @@ public class DomainTests : BaseTest
     [Fact]
     public void DomainEvents_Should_HaveDomainEventsPostfix()
     {
-        var result = Types.InAssembly(DomainAssembly)
+        TestResult result = Types.InAssembly(DomainAssembly)
             .That()
             .ImplementInterface(typeof(IDomainEvent))
             .Should()
@@ -36,16 +36,16 @@ public class DomainTests : BaseTest
     [Fact]
     public void Entities_Should_HavePrivateParameterlessConstructor()
     {
-        var entityTypes = Types.InAssembly(DomainAssembly)
+        IEnumerable<Type> entityTypes = Types.InAssembly(DomainAssembly)
             .That()
             .Inherit(typeof(Entity))
             .GetTypes();
 
         var failingTypes = new List<Type>();
-        foreach (var entityType in entityTypes)
+        foreach (Type entityType in entityTypes)
         {
-            var constructors = entityType.GetConstructors(BindingFlags.NonPublic |
-                                                          BindingFlags.Instance);
+            ConstructorInfo[] constructors = entityType.GetConstructors(BindingFlags.NonPublic |
+                                                                        BindingFlags.Instance);
 
             if (!constructors.Any(c => c.IsPrivate && c.GetParameters().Length == 0))
             {
