@@ -26,6 +26,6 @@ public class BackgroundJobsServiceInstaller : IServiceInstaller
             configure.UseMicrosoftDependencyInjectionJobFactory();
         });
 
-        services.AddQuartzHostedService();
+        services.AddQuartzHostedService(o => o.WaitForJobsToComplete = true);
     }
 }

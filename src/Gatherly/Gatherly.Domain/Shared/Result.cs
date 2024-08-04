@@ -84,4 +84,19 @@ public class Result
 
         return Success(results[0].Value);
     }
+
+    public static Result<(T1, T2)> Combine<T1, T2>(Result<T1> result1, Result<T2> result2)
+    {
+        if (result1.IsFailure)
+        {
+            return Failure<(T1, T2)>(result1.Errors);
+        }
+
+        if (result2.IsFailure)
+        {
+            return Failure<(T1, T2)>(result2.Errors);
+        }
+
+        return Success((result1.Value, result2.Value));
+    }
 }
