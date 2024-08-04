@@ -6,13 +6,14 @@ namespace Domain.UnitTests.Users;
 public class UserTests
 {
     [Fact]
-    public void Create_Should_ReturnUser_WhenNameIsValid()
+    public void Create_Should_CreateUser_WhenNameIsValid()
     {
         // Arrange
-        var name = new Name("Full name");
+        var email = Email.Create("test@test.com");
+        var name = new Name("Full Name");
 
         // Act
-        var user = User.Create(name);
+        var user = User.Create(email, name, true);
 
         // Assert
         user.Should().NotBeNull();
@@ -22,13 +23,16 @@ public class UserTests
     public void Create_Should_RaiseDomainEvent_WhenNameIsValid()
     {
         // Arrange
-        var name = new Name("Full name");
+        var email = Email.Create("test@test.com");
+        var name = new Name("Full Name");
 
         // Act
-        var user = User.Create(name);
+        var user = User.Create(email, name, true);
 
         // Assert
-        user.DomainEvents.Should().ContainSingle()
-            .Which.Should().BeOfType<UserCreatedDomainEvent>();
+        user.DomainEvents
+            .Should().ContainSingle()
+            .Which
+            .Should().BeOfType<UserCreatedDomainEvent>();
     }
 }

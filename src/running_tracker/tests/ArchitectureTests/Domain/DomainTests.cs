@@ -1,7 +1,7 @@
-﻿using System.Reflection;
 using Domain.Abstractions;
-using FluentAssertions;
 using NetArchTest.Rules;
+using System.Reflection;
+using FluentAssertions;
 
 namespace ArchitectureTests.Domain;
 
@@ -21,7 +21,7 @@ public class DomainTests : BaseTest
     }
 
     [Fact]
-    public void DomainEvents_Should_HaveDomainEventPostfix()
+    public void DomainEvents_Should_HaveDomainEventsPostfix()
     {
         var result = Types.InAssembly(DomainAssembly)
             .That()

@@ -8,12 +8,14 @@ public class NameTests
     [Theory]
     [InlineData(null)]
     [InlineData("")]
-    public void Constructor_Should_ThrowArgumentException_WhenValueIsInvalid(string? value)
+    public void Name_Should_ThrowArgumentException_WhenValueIsInvalid(string? value)
     {
+        // Act
         Name Action() => new(value);
 
         // Assert
-        FluentActions.Invoking(Action).Should().ThrowExactly<ArgumentNullException>()
-            .Which.ParamName.Should().Be("value");
+        FluentActions.Invoking(Action).Should().Throw<ArgumentNullException>()
+            .Which
+            .ParamName.Should().Be("value");
     }
 }
