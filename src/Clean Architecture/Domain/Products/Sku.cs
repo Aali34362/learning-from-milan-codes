@@ -9,7 +9,7 @@ public record Sku
 
     public string Value { get; init; }
 
-    public static Sku? Create(string? value)
+    public static Sku? Create(string value)
     {
         if (string.IsNullOrEmpty(value))
         {
