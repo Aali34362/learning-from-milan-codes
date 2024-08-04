@@ -1,6 +1,7 @@
 ﻿using Application.Data;
 using Domain.Customers;
 using Domain.Orders;
+using Domain.Products;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,6 +31,8 @@ public static class DependencyInjection
         services.AddScoped<IOrderRepository, OrderRepository>();
 
         services.AddScoped<IOrderSummaryRepository, OrderSummariesRepository>();
+
+        services.AddScoped<IProductRepository, ProductRepository>();
 
         return services;
     }

@@ -3,7 +3,7 @@
 // Stock Keeping Unit
 public record Sku
 {
-    private const int DefaultLength = 15;
+    private const int DefaultLength = 8;
 
     private Sku(string value) => Value = value;
 
