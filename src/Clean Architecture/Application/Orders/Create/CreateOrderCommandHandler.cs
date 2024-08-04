@@ -1,25 +1,26 @@
-﻿using Domain.Customers;
+﻿using Application.Data;
+using Application.Orders.Create.Saga;
+using Domain.Customers;
 using Domain.Orders;
 using MediatR;
+using Rebus.Bus;
 
 namespace Application.Orders.Create;
 
 internal sealed class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand>
 {
-    private readonly ICustomerRepository _customerRepository;
-    private readonly IOrderRepository _orderRepository;
+    private readonly IApplicationDbContext _context;
+    private readonly IBus _bus;
 
-    public CreateOrderCommandHandler(
-        ICustomerRepository customerRepository,
-        IOrderRepository orderRepository)
+    public CreateOrderCommandHandler(IApplicationDbContext context, IBus bus)
     {
-        _customerRepository = customerRepository;
-        _orderRepository = orderRepository;
+        _context = context;
+        _bus = bus;
     }
 
     public async Task Handle(CreateOrderCommand request, CancellationToken cancellationToken)
     {
-        var customer = await _customerRepository.GetByIdAsync(
+        var customer = await _context.Customers.FindAsync(
             new CustomerId(request.CustomerId));
 
         if (customer is null)
@@ -29,6 +30,10 @@ internal sealed class CreateOrderCommandHandler : IRequestHandler<CreateOrderCom
 
         var order = Order.Create(customer.Id);
 
-        _orderRepository.Add(order);
+        _context.Orders.Add(order);
+
+        await _context.SaveChangesAsync(cancellationToken);
+
+        await _bus.Send(new OrderCreatedEvent(order.Id.Value));
     }
 }

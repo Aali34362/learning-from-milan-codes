@@ -1,4 +1,5 @@
-﻿using Domain.Orders;
+﻿using Application.Data;
+using Domain.Orders;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,23 +8,25 @@ namespace Application.Orders.GetOrder;
 internal sealed class GetOrderQueryHandler :
     IRequestHandler<GetOrderQuery, OrderResponse>
 {
-    private readonly IOrderReadService _orderReadService;
+    private readonly IApplicationDbContext _context;
 
-    public GetOrderQueryHandler(IOrderReadService orderReadService)
+    public GetOrderQueryHandler(IApplicationDbContext context)
     {
-        _orderReadService = orderReadService;
+        _context = context;
     }
 
     public async Task<OrderResponse> Handle(GetOrderQuery request, CancellationToken cancellationToken)
     {
-        var orderId = new OrderId(request.OrderId);
-
-        var orderResponse = await _orderReadService.GetByIdAsync(orderId);
-
-        if (orderResponse is null)
-        {
-            throw new OrderNotFoundException(orderId);
-        }
+        var orderResponse = await _context
+            .Orders
+            .Where(o => o.Id == new OrderId(request.OrderId))
+            .Select(o => new OrderResponse(
+                o.Id.Value,
+                o.CustomerId.Value,
+                o.LineItems
+                    .Select(li => new LineItemResponse(li.Id.Value, li.Price.Amount))
+                    .ToList()))
+            .SingleAsync(cancellationToken);
 
         return orderResponse;
     }
