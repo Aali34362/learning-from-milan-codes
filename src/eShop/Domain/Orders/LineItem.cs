@@ -12,6 +12,10 @@ public class LineItem
         Price = price;
     }
 
+    private LineItem()
+    {
+    }
+
     public LineItemId Id { get; private set; }
 
     public OrderId OrderId { get; private set; }
