@@ -6,6 +6,6 @@ public interface IFollowerRepository
         Guid userId,
         Guid followedId,
         CancellationToken cancellationToken);
-    
+
     void Insert(Follower follower);
 }

@@ -1,5 +1,4 @@
-﻿using System.Data.Common;
-using Domain.Abstractions;
+﻿using Domain.Abstractions;
 
 namespace Domain.Followers;
 
@@ -26,7 +25,7 @@ public sealed class Follower : Entity
     {
         var follower = new Follower(userId, followedId, createdOnUtc);
 
-        follower.Raise(new FollowerCreatedDomainEvent(follower.UserId, follower.FollowedId));
+        follower.Raise(new FollowerCreatedDomainEvent(userId, followedId));
 
         return follower;
     }
