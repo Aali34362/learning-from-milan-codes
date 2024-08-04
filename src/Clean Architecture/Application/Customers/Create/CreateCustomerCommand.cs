@@ -1,7 +1,7 @@
-﻿using Application.Abstractions.Messaging;
+﻿using MediatR;
 
 namespace Application.Customers.Create;
 
-public record CreateCustomerCommand(string Email, string Name) : ICommand;
+public record CreateCustomerCommand(string Email, string Name) : IRequest;
 
 public record CreateCustomerRequest(string Email, string Name);

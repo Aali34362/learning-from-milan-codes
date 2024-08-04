@@ -506,6 +506,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CreditCalculator.After", "s
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CreditCalculator.Tests", "src\CreditCalculator\CreditCalculator.Tests\CreditCalculator.Tests.csproj", "{7BBB8735-742F-4104-9BFF-BC61F4E50E9A}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CreditCalculator.Before", "src\CreditCalculator\CreditCalculator.Before\CreditCalculator.Before.csproj", "{872FF921-4BA1-47D6-AA61-DE6114B60730}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -972,6 +974,10 @@ Global
 		{7BBB8735-742F-4104-9BFF-BC61F4E50E9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7BBB8735-742F-4104-9BFF-BC61F4E50E9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7BBB8735-742F-4104-9BFF-BC61F4E50E9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{872FF921-4BA1-47D6-AA61-DE6114B60730}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{872FF921-4BA1-47D6-AA61-DE6114B60730}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{872FF921-4BA1-47D6-AA61-DE6114B60730}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{872FF921-4BA1-47D6-AA61-DE6114B60730}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1224,6 +1230,7 @@ Global
 		{6E960A1D-4F80-45EF-A4C3-2CD5A7052B7F} = {F34662CF-0CEC-40BE-8226-997E63E2A049}
 		{2A5FB195-CDE6-4148-998A-5E4A2BA98122} = {6E960A1D-4F80-45EF-A4C3-2CD5A7052B7F}
 		{7BBB8735-742F-4104-9BFF-BC61F4E50E9A} = {6E960A1D-4F80-45EF-A4C3-2CD5A7052B7F}
+		{872FF921-4BA1-47D6-AA61-DE6114B60730} = {6E960A1D-4F80-45EF-A4C3-2CD5A7052B7F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B0C00772-914D-4F50-BF30-19CA773160B3}
