@@ -1,5 +1,7 @@
 using GitHub.Api;
-using GitHub.Api.DelegatingHandlers;
+using Microsoft.Extensions.Options;
+using Polly;
+using Polly.Fallback;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,17 +13,24 @@ builder.Services.AddOptions<GitHubSettings>()
     .ValidateDataAnnotations()
     .ValidateOnStart();
 
-builder.Services.AddTransient<RetryHandler>();
-builder.Services.AddTransient<LoggingHandler>();
-builder.Services.AddTransient<GitHubAuthenticationHandler>();
-
-builder.Services.AddHttpClient<GitHubService>(httpClient =>
+builder.Services.AddHttpClient<GitHubService>((sp, httpClient) =>
 {
-    httpClient.BaseAddress = new Uri("https://api.github.com");
-})
-.AddHttpMessageHandler<RetryHandler>()
-.AddHttpMessageHandler<LoggingHandler>()
-.AddHttpMessageHandler<GitHubAuthenticationHandler>();
+    var gitHubSettings = sp.GetRequiredService<IOptions<GitHubSettings>>().Value;
+
+    httpClient.DefaultRequestHeaders.Add("Authorization", gitHubSettings.AccessToken);
+    httpClient.DefaultRequestHeaders.Add("User-Agent", gitHubSettings.UserAgent);
+
+    httpClient.BaseAddress = new Uri(gitHubSettings.BaseAddress);
+});
+
+builder.Services.AddResiliencePipeline<string, GitHubUser?>("gh-users-fallback",
+    pipelineBuilder =>
+    {
+        pipelineBuilder.AddFallback(new FallbackStrategyOptions<GitHubUser?>
+        {
+            FallbackAction = _ => Outcome.FromResultAsValueTask<GitHubUser?>(GitHubUser.Blank)
+        });
+    });
 
 var app = builder.Build();
 
