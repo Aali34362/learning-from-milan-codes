@@ -17,10 +17,10 @@ public class ProductsModule : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/products", async (ISender sender) =>
+        app.MapGet("/products", async (long cursor, int pageSize, ISender sender) =>
         {
-            Result<List<ProductResponse>> result = await sender
-                .Send(new GetProductsQuery());
+            var result = await sender
+                .Send(new GetProductsCursorQuery(cursor, pageSize));
 
             return Results.Ok(result.Value);
         });

@@ -25,6 +25,7 @@ builder.Services.AddMarten(options =>
 {
     options.Connection(builder.Configuration.GetConnectionString("Database")!);
 });
+// .InitializeWith<ProductsData>();
 
 builder.Services.AddMediatR(ApplicationAssembly.Instance);
 

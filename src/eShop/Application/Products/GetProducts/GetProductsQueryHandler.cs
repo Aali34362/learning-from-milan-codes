@@ -24,6 +24,9 @@ internal sealed class GetProductsQueryHandler
                 p.Name,
                 p.Price,
                 p.Tags))
+            .OrderBy(p => p.Id)
+            .Skip((request.Page - 1) * request.PageSize)
+            .Take(request.PageSize)
             .ToListAsync(cancellationToken);
 
         return products.ToList();
