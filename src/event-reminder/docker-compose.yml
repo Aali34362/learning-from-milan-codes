@@ -1,0 +1,48 @@
+version: '3.7'
+
+services:
+  eventreminder.services.api:
+    image: ${DOCKER_REGISTRY-}eventreminderservicesapi
+    container_name: EventReminder.Api
+    build:
+      context: .
+      dockerfile: EventReminder.Services.Api/Dockerfile
+    restart: always
+    ports:
+      - "8080:80"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+
+  eventreminder.services.notifications:
+    image: ${DOCKER_REGISTRY-}eventreminderservicesnotifications
+    container_name: EventReminder.Notifications
+    build:
+      context: .
+      dockerfile: EventReminder.Services.Notifications/Dockerfile
+    restart: always
+    ports:
+      - "8081:80"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+
+  event-reminder-db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: EventReminder.Db
+    volumes:
+        - ./.containers/database:/var/opt/mssql/data
+    ports:
+        - "1433:1433"
+    environment:
+        ACCEPT_EULA: "Y"
+        SA_PASSWORD: "Strong_password_123!"
+
+  event-reminder-queue:
+    image: rabbitmq:management
+    container_name: EventReminder.Queue
+    hostname: newsletter-mq
+    volumes:
+        - ./.containers/queue/data/:/var/lib/rabbitmq
+        - ./.containers/queue/log/:/var/log/rabbitmq
+    environment:
+        RABBITMQ_DEFAULT_USER: guest
+        RABBITMQ_DEFAULT_PASS: guest

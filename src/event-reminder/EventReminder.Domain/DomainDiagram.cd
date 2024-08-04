@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="EventReminder.Domain.Entities.Invitation" BaseTypeListCollapsed="true">
+    <Position X="7.75" Y="0.5" Width="2.5" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AIAAQAAgAAQAAAAAAEAAEAgAAAAAAAAAQAAAAAEAAIA=</HashCode>
+      <FileName>Invitations\Invitation.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EventReminder.Domain.Events.Attendee">
+    <Position X="1.75" Y="0.75" Width="3" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAQAAAAgAAAAAAAAAEAAEAgAAAAAAAABQAAAAAEAAAA=</HashCode>
+      <FileName>Events\Attendee.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="EventReminder.Domain.Events.Event">
+    <Position X="1.75" Y="3.25" Width="3" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQCAAAAAAgEAAEAwEIAAAAAAAQAAAAEEACAA=</HashCode>
+      <FileName>Events\Event.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="EventReminder.Domain.Events.GroupEvent">
+    <Position X="0.5" Y="6" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAQIAAAAAAgAAAAAAAAAAAAEAAAAAAAEAAAAA=</HashCode>
+      <FileName>Events\GroupEvent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EventReminder.Domain.Events.PersonalEvent">
+    <Position X="3.75" Y="6" Width="2.5" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAQAAAAAAAgAAAAAAAAAAAAAABAAAAAAAAAAA=</HashCode>
+      <FileName>Events\PersonalEvent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EventReminder.Domain.Friendships.Friendship">
+    <Position X="12.25" Y="0.5" Width="2.5" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAEAAAAgAAAABAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>Friendships\Friendship.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="EventReminder.Domain.Friendships.FriendshipRequest">
+    <Position X="12.25" Y="2.75" Width="2.5" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AIAAQAAAAAQAAAAAAEAAEAgAAAABAAAAQAAAAAEAAIA=</HashCode>
+      <FileName>Friendships\FriendshipRequest.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="EventReminder.Domain.Users.User">
+    <Position X="7.75" Y="5.5" Width="2.75" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Properties" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAkAAACAEgIAAAEAIEAAAAAAAgEAAQAAAAEEACAg=</HashCode>
+      <FileName>Users\User.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="EventReminder.Domain.Notifications.Notification">
+    <Position X="12.75" Y="6.25" Width="2.25" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AQAAAAAgAAAAAAAAAEAAUBgAIAAAAAAAQAAAgAEAAAA=</HashCode>
+      <FileName>Notifications\Notification.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Font Name="Segoe UI" Size="10" />
+</ClassDiagram>
