@@ -1,7 +1,9 @@
-﻿using Application.Abstractions.Data;
+﻿using Application.Abstractions.Caching;
+using Application.Abstractions.Data;
 using Application.Abstractions.Notifications;
 using Domain.Followers;
 using Domain.Users;
+using Infrastructure.Caching;
 using Infrastructure.Data;
 using Infrastructure.Notifications;
 using Infrastructure.Repositories;
@@ -35,5 +37,9 @@ public static class DependencyInjection
         services.AddScoped<IFollowerRepository, FollowerRepository>();
 
         services.AddTransient<INotificationService, NotificationService>();
+
+        services.AddMemoryCache();
+
+        services.AddSingleton<ICacheService, CacheService>();
     }
 }

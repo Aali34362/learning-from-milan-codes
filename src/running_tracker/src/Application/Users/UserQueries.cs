@@ -3,13 +3,11 @@ using Dapper;
 
 namespace Application.Users;
 
-public static class UserQueries
+internal static class UserQueries
 {
-    public static async Task<UserDto> GetByIdAsync(
-        Guid id,
-        IDbConnection connection)
+    internal static async Task<UserDto> GetByIdAsync(Guid id, IDbConnection dbConnection)
     {
-        return await connection.QuerySingleAsync<UserDto>(
+        return await dbConnection.QuerySingleAsync<UserDto>(
             """
             SELECT Id, Name
             FROM Users

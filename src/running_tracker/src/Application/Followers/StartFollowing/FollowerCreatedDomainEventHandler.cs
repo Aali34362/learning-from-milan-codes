@@ -3,24 +3,22 @@ using Application.Abstractions.Data;
 using Application.Abstractions.Notifications;
 using Application.Users;
 using Domain.Followers;
-using Domain.Users;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace Application.Followers.StartFollowing;
 
-internal sealed class FollowerCreatedDomainEventHandler
+internal class FollowerCreatedDomainEventHandler
     : INotificationHandler<FollowerCreatedDomainEvent>
 {
-    private readonly INotificationService _notificationService;
     private readonly IDbConnectionFactory _dbConnectionFactory;
+    private readonly INotificationService _notificationService;
 
     public FollowerCreatedDomainEventHandler(
-        INotificationService notificationService,
-        IDbConnectionFactory dbConnectionFactory)
+        IDbConnectionFactory dbConnectionFactory,
+        INotificationService notificationService)
     {
-        _notificationService = notificationService;
         _dbConnectionFactory = dbConnectionFactory;
+        _notificationService = notificationService;
     }
 
     public async Task Handle(FollowerCreatedDomainEvent notification, CancellationToken cancellationToken)
@@ -31,7 +29,7 @@ internal sealed class FollowerCreatedDomainEventHandler
 
         await _notificationService.SendAsync(
             notification.FollowedId,
-            $"{user.Name} started following you",
+            $"{user.Name} started following you!",
             cancellationToken);
     }
 }

@@ -1,5 +1,7 @@
 ﻿using Application.Followers.StartFollowing;
+using Application.Users;
 using Application.Users.Create;
+using Application.Users.GetById;
 using MediatR;
 using SharedKernel;
 using Web.Api.Extensions;
@@ -24,5 +26,14 @@ public static class UserEndpoints
 
                 return result.IsSuccess ? Results.NoContent() : result.ToProblemDetails();
             });
+
+        app.MapGet("api/users/{userId}", async (Guid userId, ISender sender) =>
+        {
+            var query = new GetUserByIdQuery(userId);
+
+            Result<UserResponse> result = await sender.Send(query);
+
+            return result.IsSuccess ? Results.Ok(result.Value) : result.ToNotFoundProblemDetails();
+        });
     }
 }

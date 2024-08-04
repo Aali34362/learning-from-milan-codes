@@ -26,7 +26,8 @@ public sealed class ApplicationDbContext : DbContext, IApplicationDbContext, IUn
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
     }
 
-    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    public override async Task<int> SaveChangesAsync(
+        CancellationToken cancellationToken = default)
     {
         int result = await base.SaveChangesAsync(cancellationToken);
 
@@ -39,12 +40,12 @@ public sealed class ApplicationDbContext : DbContext, IApplicationDbContext, IUn
     {
         var domainEvents = ChangeTracker
             .Entries<Entity>()
-            .Select(e => e.Entity)
-            .SelectMany(e =>
+            .Select(entry => entry.Entity)
+            .SelectMany(entity =>
             {
-                List<IDomainEvent> domainEvents = e.DomainEvents;
+                List<IDomainEvent> domainEvents = entity.DomainEvents;
 
-                e.ClearDomainEvents();
+                entity.ClearDomainEvents();
 
                 return domainEvents;
             })
