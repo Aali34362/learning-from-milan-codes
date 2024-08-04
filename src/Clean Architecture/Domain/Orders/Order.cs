@@ -4,15 +4,13 @@ using Domain.Products;
 
 namespace Domain.Orders;
 
-public class Order : Entity
+public class Order : Entity<OrderId>
 {
     private readonly List<LineItem> _lineItems = new();
 
     private Order()
     {
     }
-
-    public OrderId Id { get; private set; }
 
     public CustomerId CustomerId { get; private set; }
 

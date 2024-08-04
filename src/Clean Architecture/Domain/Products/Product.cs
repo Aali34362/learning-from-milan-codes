@@ -1,10 +1,12 @@
-﻿namespace Domain.Products;
+﻿using Domain.Primitives;
 
-public class Product
+namespace Domain.Products;
+
+public class Product : Entity<ProductId>
 {
     public Product(ProductId id, string name, Money price, Sku sku)
+        : base(id)
     {
-        Id = id;
         Name = name;
         Price = price;
         Sku = sku;
@@ -13,8 +15,6 @@ public class Product
     private Product()
     {
     }
-
-    public ProductId Id { get; private set; }
 
     public string Name { get; private set; } = string.Empty;
 
