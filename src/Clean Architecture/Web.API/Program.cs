@@ -1,5 +1,5 @@
 using Application;
-using Application.Abstractions;
+using Application.Abstractions.Links;
 using Carter;
 using Infrastructure;
 using Persistence;

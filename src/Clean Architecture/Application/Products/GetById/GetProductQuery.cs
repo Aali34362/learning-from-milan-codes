@@ -1,4 +1,4 @@
-﻿using Application.Abstractions;
+﻿using Application.Abstractions.Links;
 using Domain.Products;
 using MediatR;
 

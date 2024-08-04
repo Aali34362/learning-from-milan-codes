@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -20,6 +20,7 @@
   <ItemGroup>
     <Folder Include="Abstractions\Behaviors\" />
     <Folder Include="Abstractions\Messaging\" />
+    <Folder Include="Abstractions\Links\" />
     <Folder Include="Exceptions\" />
   </ItemGroup>
 

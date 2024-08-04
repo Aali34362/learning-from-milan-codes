@@ -1,4 +1,4 @@
-﻿using Application.Abstractions;
+﻿using Application.Abstractions.Links;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Products.Get;

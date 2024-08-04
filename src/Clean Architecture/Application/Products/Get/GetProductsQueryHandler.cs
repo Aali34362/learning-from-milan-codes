@@ -1,5 +1,5 @@
 ﻿using System.Linq.Expressions;
-using Application.Abstractions;
+using Application.Abstractions.Links;
 using Application.Data;
 using Application.Products.GetById;
 using Domain.Products;
