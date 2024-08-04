@@ -1,6 +1,7 @@
 ﻿using Carter;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.FeatureManagement;
 using Newsletter.Api.Contracts;
 using Newsletter.Api.Database;
 using Newsletter.Api.Shared;
@@ -17,10 +18,12 @@ public static class GetArticle
     internal sealed class Handler : IRequestHandler<Query, Result<ArticleResponse>>
     {
         private readonly ApplicationDbContext _dbContext;
+        private readonly IFeatureManager _featureManager;
 
-        public Handler(ApplicationDbContext dbContext)
+        public Handler(ApplicationDbContext dbContext, IFeatureManager featureManager)
         {
             _dbContext = dbContext;
+            _featureManager = featureManager;
         }
 
         public async Task<Result<ArticleResponse>> Handle(Query request, CancellationToken cancellationToken)
@@ -45,6 +48,14 @@ public static class GetArticle
                 return Result.Failure<ArticleResponse>(new Error(
                     "GetArticle.Null",
                     "The article with the specified ID was not found"));
+            }
+
+            if (await _featureManager.IsEnabledAsync(FeatureFlags.ShowArticlePreview))
+            {
+                articleResponse.Preview =
+                    articleResponse.Content.Length < 30
+                        ? articleResponse.Content
+                        : $"{articleResponse.Content.Substring(0, 30)}...";
             }
 
             return articleResponse;

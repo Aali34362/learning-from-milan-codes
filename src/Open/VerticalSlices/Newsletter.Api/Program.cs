@@ -1,6 +1,8 @@
 using Carter;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.FeatureManagement;
+using Microsoft.FeatureManagement.FeatureFilters;
 using Newsletter.Api.Database;
 using Newsletter.Api.Extensions;
 
@@ -11,6 +13,10 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<ApplicationDbContext>(o =>
     o.UseSqlServer(builder.Configuration.GetConnectionString("Database")));
+
+builder.Services.AddFeatureManagement(
+    builder.Configuration.GetSection("FeatureFlags"))
+    .AddFeatureFilter<PercentageFilter>();
 
 var assembly = typeof(Program).Assembly;
 

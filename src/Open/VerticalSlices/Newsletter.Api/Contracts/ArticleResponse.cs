@@ -8,6 +8,8 @@ public class ArticleResponse
 
     public string Content { get; set; } = string.Empty;
 
+    public string? Preview { get; set; }
+
     public List<string> Tags { get; set; } = new();
 
     public DateTime CreatedOnUtc { get; set; }
