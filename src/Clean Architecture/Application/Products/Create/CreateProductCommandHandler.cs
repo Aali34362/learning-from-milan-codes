@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Application.Products.Create;
 
-internal class CreateProductCommandHandler : IRequestHandler<CreateProductCommand>
+internal class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, Guid>
 {
     private readonly IProductRepository _productRepository;
     private readonly IUnitOfWork _unitOfWork;
@@ -17,7 +17,7 @@ internal class CreateProductCommandHandler : IRequestHandler<CreateProductComman
         _unitOfWork = unitOfWork;
     }
 
-    public async Task Handle(CreateProductCommand request, CancellationToken cancellationToken)
+    public async Task<Guid> Handle(CreateProductCommand request, CancellationToken cancellationToken)
     {
         var product = new Product(
             new ProductId(Guid.NewGuid()),
@@ -28,5 +28,7 @@ internal class CreateProductCommandHandler : IRequestHandler<CreateProductComman
         _productRepository.Add(product);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        return product.Id.Value;
     }
 }

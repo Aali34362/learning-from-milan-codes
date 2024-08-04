@@ -36,3 +36,5 @@ app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.MapCarter();
 
 app.Run();
+
+public partial class Program { }

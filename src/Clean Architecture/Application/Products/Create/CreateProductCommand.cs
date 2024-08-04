@@ -1,4 +1,4 @@
-﻿using MediatR;
+﻿using Application.Abstractions.Messaging;
 
 namespace Application.Products.Create;
 
@@ -6,7 +6,7 @@ public record CreateProductCommand(
     string Name,
     string Sku,
     string Currency,
-    decimal Amount) : IRequest;
+    decimal Amount) : ICommand<Guid>;
 
 public record CreateProductRequest(
     string Name,

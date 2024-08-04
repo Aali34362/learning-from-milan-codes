@@ -15,6 +15,11 @@ internal sealed  class LinkService : ILinkService
 
     public Link Generate(string endpointName, object? routeValues, string rel, string method)
     {
+        if (_httpContextAccessor.HttpContext is null)
+        {
+            return new Link("", "", "");
+        }
+
         return new Link(
             _linkGenerator.GetUriByName(
                 _httpContextAccessor.HttpContext,

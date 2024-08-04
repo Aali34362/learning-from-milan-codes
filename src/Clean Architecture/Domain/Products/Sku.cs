@@ -15,12 +15,12 @@ public record Sku
     {
         if (string.IsNullOrEmpty(value))
         {
-            return null;
+            throw new ArgumentException(nameof(value));
         }
 
         if (value.Length != DefaultLength)
         {
-            return null;
+            throw new ArgumentException(nameof(value));
         }
 
         return new Sku(value);
