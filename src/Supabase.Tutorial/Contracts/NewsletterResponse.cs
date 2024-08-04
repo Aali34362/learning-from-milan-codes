@@ -10,5 +10,7 @@ public class NewsletterResponse
 
     public int ReadTime { get; set; }
 
+    public string CoverImageUrl { get; set; }
+
     public DateTime CreatedAt { get; set; }
 }

@@ -4,6 +4,7 @@ using Supabase.Tutorial.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -25,25 +26,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.MapPost("/newsletters", async (
-    CreateNewsletterRequest request,
-    Supabase.Client client) =>
-{
-    var newsletter = new Newsletter
-    {
-        Name = request.Name,
-        Description = request.Description,
-        ReadTime = request.ReadTime,
-        CreatedAt = DateTime.Now
-    };
-
-    var response = await client.From<Newsletter>().Insert(newsletter);
-
-    var newNewsletter = response.Models.First();
-
-    return Results.Ok(newNewsletter.Id);
-});
-
 app.MapGet("/newsletters/{id}", async (long id, Supabase.Client client) =>
 {
     var response = await client
@@ -64,7 +46,9 @@ app.MapGet("/newsletters/{id}", async (long id, Supabase.Client client) =>
         Name = newsletter.Name,
         Description = newsletter.Description,
         ReadTime = newsletter.ReadTime,
-        CreatedAt = newsletter.CreatedAt
+        CreatedAt = newsletter.CreatedAt,
+        CoverImageUrl = client.Storage.From("cover-images")
+            .GetPublicUrl($"newsletter-{id}.png")
     };
 
     return Results.Ok(newsletterResponse);
@@ -77,9 +61,14 @@ app.MapDelete("/newsletters/{id}", async (long id, Supabase.Client client) =>
         .Where(n => n.Id == id)
         .Delete();
 
+    await client.Storage.From("cover-images")
+        .Remove(new List<string> { $"newsletter-{id}.png" });
+
     return Results.NoContent();
 });
 
 app.UseHttpsRedirection();
+
+app.MapControllers();
 
 app.Run();
