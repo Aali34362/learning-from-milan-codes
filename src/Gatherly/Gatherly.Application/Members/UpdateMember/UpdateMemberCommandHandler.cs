@@ -43,6 +43,8 @@ internal sealed class UpdateMemberCommandHandler : ICommandHandler<UpdateMemberC
 
         _memberRepository.Update(member);
 
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+
         return Result.Success();
     }
 }
