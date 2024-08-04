@@ -4,6 +4,7 @@ using Gatherly.Domain.Errors;
 using Gatherly.Domain.Exceptions;
 using Gatherly.Domain.Primitives;
 using Gatherly.Domain.Shared;
+using static Gatherly.Domain.Errors.DomainErrors;
 
 namespace Gatherly.Domain.Entities;
 
@@ -47,6 +48,8 @@ public sealed class Gathering : AggregateRoot
     public DateTime? InvitationsExpireAtUtc { get; private set; }
 
     public int NumberOfAttendees { get; private set; }
+
+    public bool? Cancelled { get; set; }
 
     public IReadOnlyCollection<Attendee> Attendees => _attendees;
 
@@ -103,6 +106,30 @@ public sealed class Gathering : AggregateRoot
             default:
                 throw new ArgumentOutOfRangeException(nameof(GatheringType));
         }
+    }
+
+    public Result Cancel(DateTime utcNow)
+    {
+        if (utcNow >= ScheduledAtUtc)
+        {
+            return Result.Failure(DomainErrors.Gathering.AlreadyPassed);
+        }
+
+        if (Type == GatheringType.WithExpirationForInvitations &&
+            utcNow >= InvitationsExpireAtUtc)
+        {
+            foreach (Invitation invitation in _invitations
+                         .Where(i => i.Status == InvitationStatus.Pending))
+            {
+                invitation.Expire();
+            }
+        }
+
+        Cancelled = true;
+
+        RaiseDomainEvent(new OrderCancelledDomainEvent(Guid.NewGuid(), Id));
+
+        return Result.Success();
     }
 
     public Result<Invitation> SendInvitation(Member member)

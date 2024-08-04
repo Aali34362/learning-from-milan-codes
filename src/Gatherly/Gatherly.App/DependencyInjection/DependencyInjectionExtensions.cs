@@ -98,6 +98,7 @@ public static class DependencyInjectionExtensions
         services.AddScoped<IInvitationRepository, InvitationRepository>();
 
         services.AddScoped<IEmailService, EmailService>();
+        services.AddScoped<ISystemTimeProvider, SystemTimeProvider>();
 
         return services;
     }
@@ -107,10 +108,6 @@ public static class DependencyInjectionExtensions
         string? connectionString = configuration.GetConnectionString("Database");
 
         Ensure.NotNullOrWhiteSpace(connectionString);
-
-        Guard.Against.NullOrWhiteSpace(connectionString);
-
-        connectionString.ThrowIfNull();
 
         services.AddSingleton<ConvertDomainEventsToOutboxMessagesInterceptor>();
 
