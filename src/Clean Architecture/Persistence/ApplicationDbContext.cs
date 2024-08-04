@@ -22,6 +22,8 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 
     public DbSet<Order> Orders { get; set; }
 
+    public DbSet<OrderSummary> OrderSummaries { get; set; }
+
     public DbSet<Product> Products { get; set; }
 
     public DbSet<LineItem> LineItems { get; set; }

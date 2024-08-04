@@ -11,6 +11,8 @@ public interface IApplicationDbContext
 
     DbSet<Order> Orders { get; set; }
 
+    DbSet<OrderSummary> OrderSummaries { get; set; }
+
     DatabaseFacade Database { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
