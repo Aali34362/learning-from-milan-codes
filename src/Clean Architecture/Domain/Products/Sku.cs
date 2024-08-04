@@ -9,6 +9,8 @@ public record Sku
 
     public string Value { get; init; }
 
+    public static explicit operator string(Sku sku) => sku.Value;
+
     public static Sku? Create(string value)
     {
         if (string.IsNullOrEmpty(value))
