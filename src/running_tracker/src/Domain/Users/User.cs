@@ -10,6 +10,10 @@ public sealed class User : Entity
         Name = name;
     }
 
+    private User()
+    {
+    }
+
     public Name Name { get; private set; }
 
     public static User Create(Name name)
