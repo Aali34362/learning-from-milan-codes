@@ -8,17 +8,15 @@ namespace Application.Orders.GetOrderSummary;
 internal sealed class GetOrderSummaryQueryHandler
     : IRequestHandler<GetOrderSummaryQuery, OrderSummary?>
 {
-    private readonly IApplicationDbContext _context;
+    private readonly IGetOrderSummary _getOrderSummary;
 
-    public GetOrderSummaryQueryHandler(IApplicationDbContext context)
+    public GetOrderSummaryQueryHandler(IGetOrderSummary getOrderSummary)
     {
-        _context = context;
+        _getOrderSummary = getOrderSummary;
     }
 
     public async Task<OrderSummary?> Handle(GetOrderSummaryQuery request, CancellationToken cancellationToken)
     {
-        return await _context.OrderSummaries
-            .AsNoTracking()
-            .FirstOrDefaultAsync(o => o.Id == request.OrderId, cancellationToken);
+        return await _getOrderSummary.ExecuteAsync(request.OrderId);
     }
 }
