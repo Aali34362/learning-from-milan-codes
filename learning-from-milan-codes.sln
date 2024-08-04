@@ -180,6 +180,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EfficientDeleting", "Effici
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EfficientDeleting.Api", "src\EfficientDeleting\EfficientDeleting.Api\EfficientDeleting.Api.csproj", "{BB5D894B-DC45-4BE5-A379-65BCFFFE3E43}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web.Api", "src\Services\Web Api\Web.Api\Web.Api.csproj", "{093F3EC9-261E-4B5E-8BA8-925A410E5ED9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -366,6 +368,10 @@ Global
 		{BB5D894B-DC45-4BE5-A379-65BCFFFE3E43}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB5D894B-DC45-4BE5-A379-65BCFFFE3E43}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB5D894B-DC45-4BE5-A379-65BCFFFE3E43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{093F3EC9-261E-4B5E-8BA8-925A410E5ED9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{093F3EC9-261E-4B5E-8BA8-925A410E5ED9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{093F3EC9-261E-4B5E-8BA8-925A410E5ED9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{093F3EC9-261E-4B5E-8BA8-925A410E5ED9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -456,6 +462,7 @@ Global
 		{540AB8D9-D851-4A12-8F76-F83CC9497741} = {EB1E4142-64E4-422D-8684-952D5E86E4FF}
 		{99956D36-7324-457B-83BC-FFB3E36BC801} = {F34662CF-0CEC-40BE-8226-997E63E2A049}
 		{BB5D894B-DC45-4BE5-A379-65BCFFFE3E43} = {99956D36-7324-457B-83BC-FFB3E36BC801}
+		{093F3EC9-261E-4B5E-8BA8-925A410E5ED9} = {8278A896-3EB5-459B-8445-3BD0E9619A5B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B0C00772-914D-4F50-BF30-19CA773160B3}
