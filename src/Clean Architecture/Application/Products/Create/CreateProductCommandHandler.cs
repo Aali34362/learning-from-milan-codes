@@ -17,7 +17,7 @@ internal class CreateProductCommandHandler : IRequestHandler<CreateProductComman
         _unitOfWork = unitOfWork;
     }
 
-    public async Task Handle(CreateProductCommand request, CancellationToken cancellationToken)
+    public Task Handle(CreateProductCommand request, CancellationToken cancellationToken)
     {
         var product = new Product(
             new ProductId(Guid.NewGuid()),
@@ -27,6 +27,6 @@ internal class CreateProductCommandHandler : IRequestHandler<CreateProductComman
 
         _productRepository.Add(product);
 
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
+        return Task.CompletedTask;
     }
 }

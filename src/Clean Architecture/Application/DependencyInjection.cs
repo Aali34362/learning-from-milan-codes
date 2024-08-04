@@ -1,4 +1,4 @@
-﻿using MediatR.NotificationPublishers;
+﻿using Application.Behaviors;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Application;
@@ -11,7 +11,7 @@ public static class DependencyInjection
         {
             config.RegisterServicesFromAssemblyContaining<ApplicationAssemblyReference>();
 
-            config.NotificationPublisher = new TaskWhenAllPublisher();
+            config.AddOpenBehavior(typeof(UnitOfWorkBehavior<,>));
         });
 
         return services;
