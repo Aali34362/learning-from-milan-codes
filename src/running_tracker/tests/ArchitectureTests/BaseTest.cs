@@ -1,5 +1,5 @@
-﻿using Domain.Abstractions;
-using System.Reflection;
+﻿using System.Reflection;
+using SharedKernel;
 
 namespace ArchitectureTests;
 

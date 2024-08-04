@@ -1,7 +1,7 @@
-using Domain.Abstractions;
 using NetArchTest.Rules;
 using System.Reflection;
 using FluentAssertions;
+using SharedKernel;
 
 namespace ArchitectureTests.Domain;
 
