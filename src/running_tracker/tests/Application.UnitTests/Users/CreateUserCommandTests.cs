@@ -20,7 +20,9 @@ public class CreateUserCommandTests
         _userRepositoryMock = Substitute.For<IUserRepository>();
         _unitOfWorkMock = Substitute.For<IUnitOfWork>();
 
-        _handler = new CreateUserCommandHandler(_userRepositoryMock, _unitOfWorkMock);
+        _handler = new CreateUserCommandHandler(
+            _userRepositoryMock,
+            _unitOfWorkMock);
     }
 
     [Fact]
@@ -30,7 +32,7 @@ public class CreateUserCommandTests
         CreateUserCommand invalidCommand = Command with { Email = "invalid_email" };
 
         // Act
-        Result result = await _handler.Handle(invalidCommand, default);
+        Result<Guid> result = await _handler.Handle(invalidCommand, default);
 
         // Assert
         result.Error.Should().Be(EmailErrors.InvalidFormat);
@@ -44,42 +46,28 @@ public class CreateUserCommandTests
             .Returns(false);
 
         // Act
-        Result result = await _handler.Handle(Command, default);
+        Result<Guid> result = await _handler.Handle(Command, default);
 
         // Assert
         result.Error.Should().Be(UserErrors.EmailNotUnique);
     }
 
     [Fact]
-    public async Task Handle_Should_ReturnSuccess_WhenEmailIsUnique()
+    public async Task Handle_Should_ReturnSuccess_WhenCreateSucceeds()
     {
         // Arrange
         _userRepositoryMock.IsEmailUniqueAsync(Arg.Is<Email>(e => e.Value == Command.Email))
             .Returns(true);
 
         // Act
-        Result result = await _handler.Handle(Command, default);
+        Result<Guid> result = await _handler.Handle(Command, default);
 
         // Assert
         result.IsSuccess.Should().BeTrue();
     }
 
     [Fact]
-    public async Task Handle_Should_CallUnitOfWork_WhenEmailIsUnique()
-    {
-        // Arrange
-        _userRepositoryMock.IsEmailUniqueAsync(Arg.Is<Email>(e => e.Value == Command.Email))
-            .Returns(true);
-
-        // Act
-        await _handler.Handle(Command, default);
-
-        // Assert
-        await _unitOfWorkMock.Received(1).SaveChangesAsync(Arg.Any<CancellationToken>());
-    }
-
-    [Fact]
-    public async Task Handle_Should_CallRepository_WhenEmailIsUnique()
+    public async Task Handle_Should_CallRepository_WhenCreateSucceeds()
     {
         // Arrange
         _userRepositoryMock.IsEmailUniqueAsync(Arg.Is<Email>(e => e.Value == Command.Email))
@@ -90,5 +78,19 @@ public class CreateUserCommandTests
 
         // Assert
         _userRepositoryMock.Received(1).Insert(Arg.Is<User>(u => u.Id == result.Value));
+    }
+
+    [Fact]
+    public async Task Handle_Should_CallUnitOfWork_WhenCreateSucceeds()
+    {
+        // Arrange
+        _userRepositoryMock.IsEmailUniqueAsync(Arg.Is<Email>(e => e.Value == Command.Email))
+            .Returns(true);
+
+        // Act
+        await _handler.Handle(Command, default);
+
+        // Assert
+        await _unitOfWorkMock.Received(1).SaveChangesAsync(Arg.Any<CancellationToken>());
     }
 }

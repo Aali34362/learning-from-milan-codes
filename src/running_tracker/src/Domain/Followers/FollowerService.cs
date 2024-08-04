@@ -3,7 +3,7 @@ using SharedKernel;
 
 namespace Domain.Followers;
 
-internal sealed class FollowerService : IFollowerService
+public sealed class FollowerService : IFollowerService
 {
     private readonly IFollowerRepository _followerRepository;
     private readonly IDateTimeProvider _dateTimeProvider;
