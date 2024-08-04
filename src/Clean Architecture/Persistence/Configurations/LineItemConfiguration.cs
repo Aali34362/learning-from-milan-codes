@@ -20,5 +20,7 @@ internal class LineItemConfiguration : IEntityTypeConfiguration<LineItem>
             .HasForeignKey(li => li.ProductId);
 
         builder.OwnsOne(li => li.Price);
+
+        builder.Property<uint>("Version").IsRowVersion();
     }
 }
