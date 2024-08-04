@@ -16,12 +16,12 @@ public sealed class Customers : ICarterModule
         {
             var command = new CreateCustomerCommand(request.Email, request.Name);
 
-            var result = await validator.ValidateAsync(command);
+            //var result = await validator.ValidateAsync(command);
 
-            if (!result.IsValid)
-            {
-                return Results.ValidationProblem(result.ToDictionary());
-            }
+            //if (!result.IsValid)
+            //{
+            //    return Results.ValidationProblem(result.ToDictionary());
+            //}
 
             await sender.Send(command);
 

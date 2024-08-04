@@ -12,7 +12,7 @@ public static class DependencyInjection
         {
             config.RegisterServicesFromAssemblyContaining<ApplicationAssemblyReference>();
 
-            config.AddOpenBehavior(typeof(UnitOfWorkBehavior<,>));
+            //config.AddOpenBehavior(typeof(UnitOfWorkBehavior<,>));
         });
 
         services.AddValidatorsFromAssembly(ApplicationAssemblyReference.Assembly);
