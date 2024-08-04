@@ -24,7 +24,19 @@ public class ExceptionHandlingMiddleware
         }
         catch (Exception exception)
         {
-            _logger.LogError(exception, "Exception occurred: {Message}", exception.Message);
+            if (exception is ValidationException validationException)
+            {
+                _logger.LogError(
+                    exception,
+                    "Exception occurred: {Message} {@Errors} {@Exception}",
+                    exception.Message,
+                    validationException.Errors,
+                    validationException);
+            }
+            else
+            {
+                _logger.LogError(exception, "Exception occurred: {Message}", exception.Message);
+            }
 
             var exceptionDetails = GetExceptionDetails(exception);
 

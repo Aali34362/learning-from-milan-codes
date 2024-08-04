@@ -1,7 +1,6 @@
 ﻿using Application.Products.Create;
 using Application.Products.GetById;
 using Domain.Products;
-using Web.API.Controllers;
 
 namespace Application.IntegrationTests;
 
