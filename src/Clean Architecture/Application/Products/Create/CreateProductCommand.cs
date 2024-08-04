@@ -1,14 +1,12 @@
-﻿using Application.Abstractions.Idempotency;
-using MediatR;
+﻿using MediatR;
 
 namespace Application.Products.Create;
 
 public record CreateProductCommand(
-    Guid RequestId,
     string Name,
     string Sku,
     string Currency,
-    decimal Amount) : IdempotentCommand(RequestId);
+    decimal Amount) : IRequest;
 
 public record CreateProductRequest(
     string Name,

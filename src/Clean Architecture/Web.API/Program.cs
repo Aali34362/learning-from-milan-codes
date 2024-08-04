@@ -1,3 +1,4 @@
+using System.Threading.RateLimiting;
 using Application;
 using Application.Abstractions;
 using Carter;
@@ -17,6 +18,20 @@ builder.Services.AddCarter();
 builder.Services.AddScoped<ILinkService, LinkService>();
 builder.Services.AddHttpContextAccessor();
 
+builder.Services.AddRateLimiter(options =>
+{
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+
+    options.AddPolicy("fixed", httpContext =>
+        RateLimitPartition.GetFixedWindowLimiter(
+            partitionKey: httpContext.User.Identity?.Name?.ToString(),
+            factory: _ => new FixedWindowRateLimiterOptions
+            {
+                PermitLimit = 10,
+                Window = TimeSpan.FromSeconds(10)
+            }));
+});
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -27,6 +42,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseRateLimiter();
 
 app.MapCarter();
 

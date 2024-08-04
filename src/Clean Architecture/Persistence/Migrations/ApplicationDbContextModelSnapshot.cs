@@ -150,28 +150,6 @@ namespace Persistence.Migrations
                     b.ToTable("products", (string)null);
                 });
 
-            modelBuilder.Entity("Persistence.Idempotency.IdempotentRequest", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
-
-                    b.Property<DateTime>("CreatedOnUtc")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_on_utc");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("name");
-
-                    b.HasKey("Id")
-                        .HasName("pk_idempotent_requests");
-
-                    b.ToTable("idempotent_requests", (string)null);
-                });
-
             modelBuilder.Entity("Domain.Orders.LineItem", b =>
                 {
                     b.HasOne("Domain.Orders.Order", null)

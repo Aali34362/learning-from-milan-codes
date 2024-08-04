@@ -14,18 +14,9 @@ public class Products : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("products", async (
-            CreateProductRequest request,
-            [FromHeader(Name = "X-Idempotency-Key")] string requestId,
-            ISender sender) =>
+        app.MapPost("products", async (CreateProductRequest request, ISender sender) =>
         {
-            if (!Guid.TryParse(requestId, out Guid parsedRequestId))
-            {
-                return Results.BadRequest();
-            }
-
             var command = new CreateProductCommand(
-                parsedRequestId,
                 request.Name,
                 request.Sku,
                 request.Currency,
@@ -49,7 +40,7 @@ public class Products : ICarterModule
             var products = await sender.Send(query);
 
             return Results.Ok(products);
-        }).WithName("GetProducts");
+        }).WithName("GetProducts").RequireRateLimiting("fixed");
 
         app.MapGet("products/{id:guid}", async (
             Guid id,
