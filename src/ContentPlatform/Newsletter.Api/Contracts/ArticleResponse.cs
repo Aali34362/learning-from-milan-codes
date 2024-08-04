@@ -10,6 +10,8 @@ public class ArticleResponse
 
     public List<string> Tags { get; set; } = new();
 
+    public long Views { get; set; }
+
     public DateTime CreatedOnUtc { get; set; }
 
     public DateTime? PublishedOnUtc { get; set; }

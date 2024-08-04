@@ -28,6 +28,7 @@ builder.Services.AddMassTransit(busConfigurator =>
 
     busConfigurator.AddConsumer<ArticleCreatedConsumer>();
     busConfigurator.AddConsumer<ArticleViewedConsumer>();
+    busConfigurator.AddConsumer<GetArticleViewsConsumer>();
 
     busConfigurator.UsingRabbitMq((context, configurator) =>
     {

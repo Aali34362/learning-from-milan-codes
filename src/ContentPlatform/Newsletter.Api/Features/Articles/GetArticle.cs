@@ -20,11 +20,13 @@ public static class GetArticle
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly IPublishEndpoint _publishEndpoint;
+        private readonly ArticleViewsService _articleViewsService;
 
-        public Handler(ApplicationDbContext dbContext, IPublishEndpoint publishEndpoint)
+        public Handler(ApplicationDbContext dbContext, IPublishEndpoint publishEndpoint, ArticleViewsService articleViewsService)
         {
             _dbContext = dbContext;
             _publishEndpoint = publishEndpoint;
+            _articleViewsService = articleViewsService;
         }
 
         public async Task<Result<ArticleResponse>> Handle(Query request, CancellationToken cancellationToken)
@@ -50,6 +52,8 @@ public static class GetArticle
                     "GetArticle.Null",
                     "The article with the specified ID was not found"));
             }
+
+            articleResponse.Views = await _articleViewsService.GetViewsAsync(articleResponse.Id);
 
             await _publishEndpoint.Publish(
                 new ArticleViewedEvent

@@ -4,11 +4,14 @@ using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Newsletter.Api.Database;
 using Newsletter.Api.Extensions;
+using Newsletter.Api.Features.Articles;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<ArticleViewsService>();
 
 builder.Services.AddDbContext<ApplicationDbContext>(o =>
     o.UseSqlServer(builder.Configuration.GetConnectionString("Database")));
