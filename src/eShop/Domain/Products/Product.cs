@@ -2,11 +2,11 @@
 
 public class Product
 {
-    public long Id { get; set; }
+    public Guid Id { get; private set; }
 
-    public string Name { get; set; } = string.Empty;
+    public string Name { get; private set; } = string.Empty;
 
-    public decimal Price { get; set; }
+    public Money Price { get; private set; }
 
-    public List<string> Tags { get; set; } = new();
+    public Sku Sku { get; private set; }
 }
