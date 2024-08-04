@@ -2,6 +2,7 @@
 using Application.Orders.GetOrderSummary;
 using Carter;
 using MediatR;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace Web.API.Endpoints;
 
@@ -16,13 +17,13 @@ public class Orders : ICarterModule
             await sender.Send(command);
 
             return Results.Ok();
-        });
+        }).DisableRateLimiting();
 
         app.MapGet("orders/{id}/summary", async (Guid id, ISender sender) =>
         {
             var query = new GetOrderSummaryQuery(id);
 
             return Results.Ok(await sender.Send(query));
-        });
+        }).RequireRateLimiting("fixed");
     }
 }
