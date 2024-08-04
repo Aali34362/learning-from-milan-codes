@@ -17,7 +17,7 @@ public static class SpecificationEvaluator
             queryable = queryable.Where(specification.Criteria);
         }
 
-        specification.IncludeExpressions.Aggregate(
+        queryable = specification.IncludeExpressions.Aggregate(
             queryable,
             (current, includeExpression) =>
                 current.Include(includeExpression));

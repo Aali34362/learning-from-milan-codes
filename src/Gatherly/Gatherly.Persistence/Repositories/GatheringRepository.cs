@@ -1,12 +1,11 @@
-﻿using System.Security.AccessControl;
-using Gatherly.Domain.Entities;
+﻿using Gatherly.Domain.Entities;
 using Gatherly.Domain.Repositories;
 using Gatherly.Persistence.Specifications;
 using Microsoft.EntityFrameworkCore;
 
 namespace Gatherly.Persistence.Repositories;
 
-internal sealed class GatheringRepository : IGatheringRepository
+public sealed class GatheringRepository : IGatheringRepository
 {
     private readonly ApplicationDbContext _dbContext;
 

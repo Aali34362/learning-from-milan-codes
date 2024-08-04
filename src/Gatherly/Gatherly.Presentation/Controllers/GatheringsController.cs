@@ -27,6 +27,6 @@ public sealed class GatheringsController : ApiController
 
         return response.IsSuccess
             ? Ok(response.Value)
-            : NotFound(response.Errors);
+            : NotFound(response.Error);
     }
 }

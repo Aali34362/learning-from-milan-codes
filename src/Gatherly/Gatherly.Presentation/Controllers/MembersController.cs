@@ -7,7 +7,6 @@ using Gatherly.Domain.Shared;
 using Gatherly.Infrastructure.Authentication;
 using Gatherly.Presentation.Abstractions;
 using Gatherly.Presentation.Contracts.Members;
-using Gatherly.Presentation.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -29,9 +28,7 @@ public sealed class MembersController : ApiController
 
         Result<MemberResponse> response = await Sender.Send(query, cancellationToken);
 
-        return response.IsSuccess ?
-            Ok(response.Value) :
-            NotFound(response.Errors);
+        return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
     }
 
     [HttpPost("login")]
@@ -58,16 +55,22 @@ public sealed class MembersController : ApiController
         [FromBody] RegisterMemberRequest request,
         CancellationToken cancellationToken)
     {
-        return await Result
-            .Create(
-                new CreateMemberCommand(
-                    request.Email,
-                    request.FirstName,
-                    request.LastName))
-            .Bind(command => Sender.Send(command, cancellationToken))
-            .Match(
-                id => CreatedAtAction(nameof(GetMemberById), new { id }, id),
-                HandleFailure);
+        var command = new CreateMemberCommand(
+            request.Email,
+            request.FirstName,
+            request.LastName);
+
+        Result<Guid> result = await Sender.Send(command, cancellationToken);
+
+        if (result.IsFailure)
+        {
+            return HandleFailure(result);
+        }
+        
+        return CreatedAtAction(
+            nameof(GetMemberById),
+            new { id = result.Value },
+            result.Value);
     }
 
     [HasPermission(Permission.UpdateMember)]
@@ -77,15 +80,20 @@ public sealed class MembersController : ApiController
         [FromBody] UpdateMemberRequest request,
         CancellationToken cancellationToken)
     {
-        return await Result
-            .Create(
-                new UpdateMemberCommand(
-                    id,
-                    request.FirstName,
-                    request.LastName))
-            .Bind(command => Sender.Send(command, cancellationToken))
-            .Match(
-                NoContent,
-                HandleFailure);
+        var command = new UpdateMemberCommand(
+            id,
+            request.FirstName,
+            request.LastName);
+
+        Result result = await Sender.Send(
+            command,
+            cancellationToken);
+
+        if (result.IsFailure)
+        {
+            return HandleFailure(result);
+        }
+
+        return NoContent();
     }
 }

@@ -22,22 +22,22 @@ internal sealed class AcceptInvitationCommandHandler : IRequestHandler<AcceptInv
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<Unit> Handle(AcceptInvitationCommand request, CancellationToken cancellationToken)
+    public async Task Handle(AcceptInvitationCommand request, CancellationToken cancellationToken)
     {
-        var gathering = await _gatheringRepository
+        Gathering? gathering = await _gatheringRepository
             .GetByIdWithCreatorAsync(request.GatheringId, cancellationToken);
 
         if (gathering is null)
         {
-            return Unit.Value;
+            return;
         }
 
-        var invitation = gathering.Invitations
+        Invitation? invitation = gathering.Invitations
             .FirstOrDefault(i => i.Id == request.InvitationId);
 
         if (invitation is null || invitation.Status != InvitationStatus.Pending)
         {
-            return Unit.Value;
+            return;
         }
 
         Result<Attendee> attendeeResult = gathering.AcceptInvitation(invitation);
@@ -48,7 +48,5 @@ internal sealed class AcceptInvitationCommandHandler : IRequestHandler<AcceptInv
         }
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
-
-        return Unit.Value;
     }
 }

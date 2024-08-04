@@ -3,7 +3,7 @@ using Gatherly.Domain.Repositories;
 
 namespace Gatherly.Persistence.Repositories;
 
-internal sealed class InvitationRepository : IInvitationRepository
+public sealed class InvitationRepository : IInvitationRepository
 {
     private readonly ApplicationDbContext _dbContext;
 
