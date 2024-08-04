@@ -4,6 +4,7 @@ using Carter;
 using Infrastructure;
 using Persistence;
 using Web.API.Extensions;
+using Web.API.Middleware;
 using Web.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -29,6 +30,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.MapCarter();
 
