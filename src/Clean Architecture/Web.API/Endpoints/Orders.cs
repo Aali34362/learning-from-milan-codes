@@ -16,13 +16,13 @@ public class Orders : ICarterModule
             await sender.Send(command);
 
             return Results.Ok();
-        }).DisableRateLimiting();
+        });
 
         app.MapGet("orders/{id}/summary", async (Guid id, ISender sender) =>
         {
             var query = new GetOrderSummaryQuery(id);
 
             return Results.Ok(await sender.Send(query));
-        }).RequireRateLimiting("fixed");
+        });
     }
 }
