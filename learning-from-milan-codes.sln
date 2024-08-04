@@ -91,6 +91,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EfCore.CompiledQuery.Benchm
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureFunctions.Walkthrough", "src\Services\Test\AzureFunctions.Walkthrough\AzureFunctions.Walkthrough.csproj", "{2F8C1FAE-09CF-4905-BA19-8BF9B26F0EF3}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EfCore.Linq.ExtensionMethod", "src\Services\Infrastructure\EfCore.Linq.ExtensionMethod\EfCore.Linq.ExtensionMethod.csproj", "{24A1C187-0479-4167-A1A7-6A006EE89AD7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -189,6 +191,10 @@ Global
 		{2F8C1FAE-09CF-4905-BA19-8BF9B26F0EF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F8C1FAE-09CF-4905-BA19-8BF9B26F0EF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F8C1FAE-09CF-4905-BA19-8BF9B26F0EF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24A1C187-0479-4167-A1A7-6A006EE89AD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24A1C187-0479-4167-A1A7-6A006EE89AD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24A1C187-0479-4167-A1A7-6A006EE89AD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24A1C187-0479-4167-A1A7-6A006EE89AD7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -237,6 +243,7 @@ Global
 		{D069EB2A-2F93-441F-AB40-F2E65D8DA40D} = {865BE9E3-1906-40B9-AB5F-AA609DE3434B}
 		{17E8AFC3-D17D-412D-8210-706B3DF46D54} = {A7805952-DAAB-4F43-AB88-47F7EE16BA47}
 		{2F8C1FAE-09CF-4905-BA19-8BF9B26F0EF3} = {A7805952-DAAB-4F43-AB88-47F7EE16BA47}
+		{24A1C187-0479-4167-A1A7-6A006EE89AD7} = {FF7FF0B7-2B19-43D0-8F10-6D18F5D61520}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B0C00772-914D-4F50-BF30-19CA773160B3}
