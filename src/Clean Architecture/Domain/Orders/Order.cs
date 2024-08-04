@@ -42,8 +42,13 @@ public class Order : Entity
         _lineItems.Add(lineItem);
     }
 
-    public void RemoveLineItem(LineItemId lineItemId)
+    public void RemoveLineItem(LineItemId lineItemId, IOrderRepository orderRepository)
     {
+        if (orderRepository.HasOneLineItem(this))
+        {
+            return;
+        }
+
         var lineItem = _lineItems.FirstOrDefault(li => li.Id == lineItemId);
 
         if (lineItem is null)
