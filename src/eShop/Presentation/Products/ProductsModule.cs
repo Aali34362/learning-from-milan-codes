@@ -10,11 +10,14 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using Presentation.Authentication;
 
 namespace Presentation.Products;
 
+[ApiKey]
 public class ProductsModule : ICarterModule
 {
+    [ApiKey]
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapGet("/products", async (ISender sender) =>
@@ -32,7 +35,7 @@ public class ProductsModule : ICarterModule
             await sender.Send(command);
 
             return Results.Ok();
-        });
+        }).AddEndpointFilter<ApiKeyAuthenticationEndpointFilter>();
 
         app.MapPut(
             "/products/{productId}",

@@ -27,11 +27,6 @@ internal sealed class CreateProductCommandHandler
             Tags = request.Tags
         };
 
-        if (product.Price is > 3 and < 5)
-        {
-
-        }
-
         _session.Store(product);
 
         await _session.SaveChangesAsync(cancellationToken);
