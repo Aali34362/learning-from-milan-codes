@@ -1,22 +1,75 @@
 using Application;
-using Infrastructure;
-using Presentation;
-using Serilog;
+using Application.Abstractions.Caching;
+using Application.Abstractions.EventBus;
+using Application.Behaviors;
+using Application.Products.CreateProduct;
+using Carter;
+using Infrastructure.Caching;
+using Infrastructure.MessageBroker;
+using Infrastructure.Outbox;
+using Marten;
+using MassTransit;
+using MediatR;
+using Microsoft.Extensions.Options;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services
-    .AddApplication()
-    .AddInfrastructure()
-    .AddPresentation();
+builder.Services.AddOptions<OutboxSettings>()
+    .BindConfiguration("Outbox")
+    .ValidateDataAnnotations()
+    .ValidateOnStart();
 
-builder.Host.UseSerilog((context, configuration) =>
-    configuration.ReadFrom.Configuration(context.Configuration));
+builder.Services.AddSingleton(sp =>
+    sp.GetRequiredService<IOptions<OutboxSettings>>().Value);
 
-var app = builder.Build();
+builder.Services.AddCarter();
+
+builder.Services.AddMarten(options =>
+{
+    options.Connection(builder.Configuration.GetConnectionString("Database")!);
+});
+
+builder.Services.Configure<MessageBrokerSettings>(
+    builder.Configuration.GetSection("MessageBroker"));
+
+builder.Services.AddSingleton(sp =>
+    sp.GetRequiredService<IOptions<MessageBrokerSettings>>().Value);
+
+builder.Services.AddMassTransit(busConfigurator =>
+{
+    busConfigurator.SetKebabCaseEndpointNameFormatter();
+
+    busConfigurator.AddConsumer<ProductCreatedEventConsumer>();
+
+    busConfigurator.UsingRabbitMq((context, configurator) =>
+    {
+        MessageBrokerSettings settings = context.GetRequiredService<MessageBrokerSettings>();
+
+        configurator.Host(new Uri(settings.Host), h =>
+        {
+            h.Username(settings.Username);
+            h.Password(settings.Password);
+        });
+
+        configurator.ConfigureEndpoints(context);
+    });
+});
+
+builder.Services.AddTransient<IEventBus, EventBus>();
+
+builder.Services.AddMediatR(ApplicationAssembly.Instance);
+
+builder.Services.AddScoped(
+    typeof(IPipelineBehavior<,>),
+    typeof(LoggingPipelineBehavior<,>));
+
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSingleton<ICacheService, CacheService>();
+
+WebApplication app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
@@ -24,8 +77,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseSerilogRequestLogging();
-
 app.UseHttpsRedirection();
+
+app.MapCarter();
 
 app.Run();
