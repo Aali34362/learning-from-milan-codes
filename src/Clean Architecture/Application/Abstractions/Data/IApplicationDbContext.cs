@@ -3,7 +3,7 @@ using Domain.Orders;
 using Domain.Products;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Data;
+namespace Application.Abstractions.Data;
 
 public interface IApplicationDbContext
 {

@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
+using Application.Abstractions.Data;
 using Application.Abstractions.Links;
-using Application.Data;
 using Application.Products.GetById;
 using Domain.Products;
 using MediatR;
@@ -40,12 +40,14 @@ internal sealed class GetProductsQueryHandler
         }
 
         var productResponsesQuery = productsQuery
-            .Select(p => new ProductResponse(
-                p.Id.Value,
-                p.Name,
-                p.Sku.Value,
-                p.Price.Currency,
-                p.Price.Amount));
+            .Select(p => new ProductResponse
+            {
+                Id = p.Id.Value,
+                Name = p.Name,
+                Sku = p.Sku.Value,
+                Currency = p.Price.Currency,
+                Amount = p.Price.Amount
+            });
 
         var products = await PagedList<ProductResponse>.CreateAsync(
             productResponsesQuery,

@@ -1,4 +1,4 @@
-﻿namespace Application.Data;
+﻿namespace Application.Abstractions.Data;
 
 public interface IUnitOfWork
 {

@@ -1,4 +1,4 @@
-﻿using Application.Data;
+﻿using Application.Abstractions.Data;
 using Application.Orders.Create;
 using Domain.Customers;
 using Domain.Orders;
@@ -37,6 +37,8 @@ public static class DependencyInjection
         services.AddScoped<IProductRepository, ProductRepository>();
 
         services.AddScoped<ICalculateOrderSummary, CalculateOrderSummary>();
+
+        services.AddSingleton<ISqlConnectionFactory, SqlConnectionFactory>();
 
         return services;
     }

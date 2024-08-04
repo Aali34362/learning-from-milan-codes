@@ -1,19 +1,11 @@
-﻿using Domain.Shared;
-using MediatR;
+﻿using MediatR;
 
 namespace Application.Abstractions.Messaging;
 
-/// <summary>
-/// Represents the command interface.
-/// </summary>
-public interface ICommand : IRequest<Result>
+public interface ICommand : IRequest, ICommandBase
 {
 }
 
-/// <summary>
-/// Represents the command interface.
-/// </summary>
-/// <typeparam name="TResponse">The command response type.</typeparam>
-public interface ICommand<TResponse> : IRequest<Result<TResponse>>
+public interface ICommand<TResponse> : IRequest<TResponse>, ICommandBase
 {
 }

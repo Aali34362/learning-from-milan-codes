@@ -1,3 +1,7 @@
 ﻿namespace Application.Orders.GetOrder;
 
-public record LineItemResponse(Guid LineItemId, decimal Price);
+public class LineItemResponse
+{
+    public Guid LineItemId { get; init; }
+    public decimal Price { get; init; }
+}
