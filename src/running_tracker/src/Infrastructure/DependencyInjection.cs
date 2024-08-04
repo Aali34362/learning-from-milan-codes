@@ -6,6 +6,7 @@ using Domain.Users;
 using Infrastructure.Caching;
 using Infrastructure.Data;
 using Infrastructure.Notifications;
+using Infrastructure.Outbox;
 using Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -25,11 +26,15 @@ public static class DependencyInjection
         string? connectionString = configuration.GetConnectionString("Database");
         Ensure.NotNullOrEmpty(connectionString);
 
-        services.AddTransient<IDbConnectionFactory>(
-            _ => new DbConnectionFactory(connectionString));
+        services.AddTransient<IDbConnectionFactory>(_ => new DbConnectionFactory(connectionString));
+
+        services.AddSingleton<PublishDomainEventsInterceptor>();
+        services.AddSingleton<InsertOutboxMessagesInterceptor>();
 
         services.AddDbContext<IApplicationDbContext, ApplicationDbContext>(
-            options => options.UseSqlServer(connectionString));
+            (sp, options) => options
+                .UseSqlServer(connectionString)
+                .AddInterceptors(sp.GetRequiredService<InsertOutboxMessagesInterceptor>()));
 
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationDbContext>());
 

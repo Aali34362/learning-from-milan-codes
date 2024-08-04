@@ -1,5 +1,4 @@
 ﻿using Application.Abstractions.Caching;
-using Application.Abstractions.Messaging;
 using MediatR;
 
 namespace Application.Abstractions.Behaviors;
@@ -15,7 +14,10 @@ internal sealed class QueryCachingPipelineBehavior<TRequest, TResponse>
         _cacheService = cacheService;
     }
 
-    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+    public async Task<TResponse> Handle(
+        TRequest request,
+        RequestHandlerDelegate<TResponse> next,
+        CancellationToken cancellationToken)
     {
         return await _cacheService.GetOrCreateAsync(
             request.CacheKey,
