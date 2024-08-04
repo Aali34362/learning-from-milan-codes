@@ -1,6 +1,5 @@
 ﻿using Application.Orders.AddLineItem;
 using Application.Orders.Create;
-using Application.Orders.GetOrder;
 using Application.Orders.GetOrderSummary;
 using Application.Orders.RemoveLineItem;
 using Carter;
@@ -47,13 +46,6 @@ public class Orders : ICarterModule
             await sender.Send(command);
 
             return Results.Ok();
-        });
-
-        app.MapGet("orders/{id}", async (Guid id, ISender sender) =>
-        {
-            var query = new GetOrderQuery(id);
-
-            return Results.Ok(await sender.Send(query));
         });
 
         app.MapGet("orders/{id}/summary", async (Guid id, ISender sender) =>

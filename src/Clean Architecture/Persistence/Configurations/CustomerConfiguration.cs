@@ -19,5 +19,7 @@ internal class CustomerConfiguration : IEntityTypeConfiguration<Customer>
         builder.Property(c => c.Email).HasMaxLength(255);
 
         builder.HasIndex(c => c.Email).IsUnique();
+
+        builder.HasIndex(c => c.IdentityId).IsUnique();
     }
 }
