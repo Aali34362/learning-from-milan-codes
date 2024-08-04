@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Web.Api.Infrastructure;
 
-public class GlobalExceptionHandler : IExceptionHandler
+internal sealed class GlobalExceptionHandler : IExceptionHandler
 {
     private readonly ILogger<GlobalExceptionHandler> _logger;
 
@@ -22,11 +22,11 @@ public class GlobalExceptionHandler : IExceptionHandler
         var problemDetails = new ProblemDetails
         {
             Status = StatusCodes.Status500InternalServerError,
-            Title = "Server Error",
-            Type = "https://datatracker.ietf.org/doc/html/rfc7231#section-6.6.1"
+            Type = "https://datatracker.ietf.org/doc/html/rfc7231#section-6.6.1",
+            Title = "Server error"
         };
 
-        httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
+        httpContext.Response.StatusCode = problemDetails.Status.Value;
 
         await httpContext.Response.WriteAsJsonAsync(problemDetails, cancellationToken);
 

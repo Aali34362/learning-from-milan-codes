@@ -1,8 +1,8 @@
 using Application;
 using Infrastructure;
 using Web.Api.Endpoints;
+using Web.Api.Extensions;
 using Web.Api.Infrastructure;
-using Web.Api.Middleware;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +22,8 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+
+    app.ApplyMigrations();
 }
 
 app.UseHttpsRedirection();

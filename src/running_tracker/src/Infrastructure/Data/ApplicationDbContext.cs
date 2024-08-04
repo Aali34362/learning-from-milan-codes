@@ -1,4 +1,5 @@
 ﻿using Application.Abstractions.Data;
+using Domain.Followers;
 using Domain.Users;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -6,7 +7,7 @@ using SharedKernel;
 
 namespace Infrastructure.Data;
 
-internal sealed class ApplicationDbContext : DbContext, IApplicationDbContext, IUnitOfWork
+public sealed class ApplicationDbContext : DbContext, IApplicationDbContext, IUnitOfWork
 {
     private readonly IPublisher _publisher;
 
@@ -18,13 +19,14 @@ internal sealed class ApplicationDbContext : DbContext, IApplicationDbContext, I
 
     public DbSet<User> Users { get; set; }
 
+    public DbSet<Follower> Followers { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
     }
 
-    public override async Task<int> SaveChangesAsync(
-        CancellationToken cancellationToken = default)
+    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         int result = await base.SaveChangesAsync(cancellationToken);
 
@@ -37,12 +39,12 @@ internal sealed class ApplicationDbContext : DbContext, IApplicationDbContext, I
     {
         var domainEvents = ChangeTracker
             .Entries<Entity>()
-            .Select(entry => entry.Entity)
-            .SelectMany(entity =>
+            .Select(e => e.Entity)
+            .SelectMany(e =>
             {
-                List<IDomainEvent> domainEvents = entity.DomainEvents;
+                List<IDomainEvent> domainEvents = e.DomainEvents;
 
-                entity.ClearDomainEvents();
+                e.ClearDomainEvents();
 
                 return domainEvents;
             })

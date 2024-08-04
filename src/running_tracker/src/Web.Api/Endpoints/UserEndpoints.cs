@@ -1,4 +1,5 @@
-﻿using Application.Users.Create;
+﻿using Application.Followers.StartFollowing;
+using Application.Users.Create;
 using MediatR;
 using SharedKernel;
 using Web.Api.Extensions;
@@ -15,5 +16,13 @@ public static class UserEndpoints
 
             return result.IsSuccess ? Results.Ok(result.Value) : result.ToProblemDetails();
         });
+
+        app.MapPost("api/users/{userId}/follow/{followedId}",
+            async (Guid userId, Guid followedId, ISender sender) =>
+            {
+                Result result = await sender.Send(new StartFollowingCommand(userId, followedId));
+
+                return result.IsSuccess ? Results.NoContent() : result.ToProblemDetails();
+            });
     }
 }

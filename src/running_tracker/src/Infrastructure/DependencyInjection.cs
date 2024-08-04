@@ -1,7 +1,9 @@
 ﻿using Application.Abstractions.Data;
+using Application.Abstractions.Notifications;
 using Domain.Followers;
 using Domain.Users;
 using Infrastructure.Data;
+using Infrastructure.Notifications;
 using Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -31,5 +33,7 @@ public static class DependencyInjection
 
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IFollowerRepository, FollowerRepository>();
+
+        services.AddTransient<INotificationService, NotificationService>();
     }
 }

@@ -1,20 +1,30 @@
 ﻿using Domain.Users;
+using Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
 
 internal sealed class UserRepository : IUserRepository
 {
-    public Task<User?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    private readonly ApplicationDbContext _dbContext;
+
+    public UserRepository(ApplicationDbContext dbContext)
     {
-        return Task.FromResult(default(User?));
+        _dbContext = dbContext;
     }
 
-    public Task<bool> IsEmailUniqueAsync(Email email)
+    public async Task<User?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        throw new ApplicationException("Repository exception");
+        return await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == id, cancellationToken);
+    }
+
+    public async Task<bool> IsEmailUniqueAsync(Email email)
+    {
+        return !await _dbContext.Users.AnyAsync(u => u.Email == email);
     }
 
     public void Insert(User user)
     {
+        _dbContext.Users.Add(user);
     }
 }

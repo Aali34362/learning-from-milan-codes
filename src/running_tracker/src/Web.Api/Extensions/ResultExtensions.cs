@@ -8,7 +8,7 @@ public static class ResultExtensions
     {
         if (result.IsSuccess)
         {
-            throw new InvalidOperationException("Can't convert success result to problem");
+            throw new InvalidOperationException();
         }
 
         return Results.Problem(
