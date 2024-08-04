@@ -9,16 +9,18 @@ internal sealed class GetOrderQueryHandler :
     IRequestHandler<GetOrderQuery, OrderResponse>
 {
     private readonly IApplicationDbContext _context;
+    private readonly IRepository<Order> _ordersRepository;
 
-    public GetOrderQueryHandler(IApplicationDbContext context)
+    public GetOrderQueryHandler(IApplicationDbContext context, IRepository<Order> ordersRepository)
     {
         _context = context;
+        _ordersRepository = ordersRepository;
     }
 
     public async Task<OrderResponse> Handle(GetOrderQuery request, CancellationToken cancellationToken)
     {
-        var orderResponse = await _context
-            .Orders
+        var orderResponse = await _ordersRepository
+            .GetQueryable()
             .Where(o => o.Id == new OrderId(request.OrderId))
             .Select(o => new OrderResponse(
                 o.Id.Value,
