@@ -1,7 +1,5 @@
-﻿using Application.Data;
-using Domain.Orders;
+﻿using Domain.Orders;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace Application.Orders.GetOrderSummary;
 

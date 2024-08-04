@@ -8,16 +8,13 @@ internal sealed class CreateOrderCommandHandler : IRequestHandler<CreateOrderCom
 {
     private readonly ICustomerRepository _customerRepository;
     private readonly IOrderRepository _orderRepository;
-    private readonly IOrderSummaryRepository _orderSummaryRepository;
 
     public CreateOrderCommandHandler(
         ICustomerRepository customerRepository,
-        IOrderRepository orderRepository,
-        IOrderSummaryRepository orderSummaryRepository)
+        IOrderRepository orderRepository)
     {
         _customerRepository = customerRepository;
         _orderRepository = orderRepository;
-        _orderSummaryRepository = orderSummaryRepository;
     }
 
     public async Task Handle(CreateOrderCommand request, CancellationToken cancellationToken)
@@ -33,7 +30,5 @@ internal sealed class CreateOrderCommandHandler : IRequestHandler<CreateOrderCom
         var order = Order.Create(customer.Id);
 
         _orderRepository.Add(order);
-
-        _orderSummaryRepository.Add(new OrderSummary(order.Id.Value, customer.Id.Value, 0));
     }
 }
