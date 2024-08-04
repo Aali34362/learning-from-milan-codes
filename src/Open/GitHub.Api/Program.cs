@@ -1,7 +1,6 @@
+using FluentValidation;
 using GitHub.Api;
 using Microsoft.Extensions.Options;
-using Polly;
-using Polly.Fallback;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,8 +9,10 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddOptions<GitHubSettings>()
     .BindConfiguration(GitHubSettings.ConfigurationSection)
-    .ValidateDataAnnotations()
+    .ValidateFluentValidation()
     .ValidateOnStart();
+
+builder.Services.AddOptionsWithFluentValidation<GitHubSettings>(GitHubSettings.ConfigurationSection)
 
 builder.Services.AddHttpClient<GitHubService>((sp, httpClient) =>
 {
@@ -23,14 +24,7 @@ builder.Services.AddHttpClient<GitHubService>((sp, httpClient) =>
     httpClient.BaseAddress = new Uri(gitHubSettings.BaseAddress);
 });
 
-builder.Services.AddResiliencePipeline<string, GitHubUser?>("gh-users-fallback",
-    pipelineBuilder =>
-    {
-        pipelineBuilder.AddFallback(new FallbackStrategyOptions<GitHubUser?>
-        {
-            FallbackAction = _ => Outcome.FromResultAsValueTask<GitHubUser?>(GitHubUser.Blank)
-        });
-    });
+builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
 
 var app = builder.Build();
 
@@ -44,4 +38,12 @@ app.UseHttpsRedirection();
 
 app.MapUserEndpoints();
 
-app.Run();
+try
+{
+    app.Run();
+}
+catch (Exception e)
+{
+    Console.WriteLine(e);
+    throw;
+}
