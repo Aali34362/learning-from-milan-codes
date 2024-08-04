@@ -1,0 +1,105 @@
+﻿using Domain.Followers;
+using Domain.Users;
+using FluentAssertions;
+using NSubstitute;
+
+namespace Domain.UnitTests.Followers;
+
+public class FollowerServiceTests
+{
+    private readonly FollowerService _followerService;
+    private readonly IFollowerRepository _followerRepositoryMock;
+    private static readonly Email Email = Email.Create("test@test.com");
+    private static readonly Name Name = new("Full name");
+    private static readonly DateTime UtcNow = DateTime.UtcNow;
+
+    public FollowerServiceTests()
+    {
+        _followerRepositoryMock = Substitute.For<IFollowerRepository>();
+        _followerService = new FollowerService(_followerRepositoryMock);
+    }
+
+    [Fact]
+    public async Task StartFollowingAsync_Should_ReturnError_WhenFollowingSameUser()
+    {
+        // Arrange
+        var user = User.Create(Email, Name, hasPublicProfile: false);
+
+        // Act
+        var result = await _followerService.StartFollowingAsync(user, user, UtcNow, default);
+
+        // Assert
+        result.Error.Should().Be(FollowerErrors.SameUser);
+    }
+
+    [Fact]
+    public async Task StartFollowingAsync_Should_ReturnError_WhenFollowingNonPublicProfile()
+    {
+        // Arrange
+        var user = User.Create(Email, Name, hasPublicProfile: false);
+        var followed = User.Create(Email, Name, hasPublicProfile: false);
+
+        // Act
+        var result = await _followerService.StartFollowingAsync(user, followed, UtcNow, default);
+
+        // Assert
+        result.Error.Should().Be(FollowerErrors.NonPublicProfile);
+    }
+
+    [Fact]
+    public async Task StartFollowingAsync_Should_ReturnError_WhenAlreadyFollowing()
+    {
+        // Arrange
+        var user = User.Create(Email, Name, hasPublicProfile: false);
+        var followed = User.Create(Email, Name, hasPublicProfile: true);
+
+        _followerRepositoryMock
+            .IsAlreadyFollowingAsync(user.Id, followed.Id, default)
+            .Returns(true);
+
+        // Act
+        var result = await _followerService.StartFollowingAsync(user, followed, UtcNow, default);
+
+        // Assert
+        result.Error.Should().Be(FollowerErrors.AlreadyFollowing);
+    }
+
+    [Fact]
+    public async Task StartFollowingAsync_Should_ReturnSuccess_WhenFollowerCreated()
+    {
+        // Arrange
+        var user = User.Create(Email, Name, hasPublicProfile: false);
+        var followed = User.Create(Email, Name, hasPublicProfile: true);
+
+        _followerRepositoryMock
+            .IsAlreadyFollowingAsync(user.Id, followed.Id, default)
+            .Returns(false);
+
+        // Act
+        var result = await _followerService.StartFollowingAsync(user, followed, UtcNow, default);
+
+        // Assert
+        result.IsSuccess.Should().BeTrue();
+    }
+
+    [Fact]
+    public async Task StartFollowingAsync_Should_CallInsertOnRepository_WhenFollowerCreated()
+    {
+        // Arrange
+        var user = User.Create(Email, Name, hasPublicProfile: false);
+        var followed = User.Create(Email, Name, hasPublicProfile: true);
+
+        _followerRepositoryMock
+            .IsAlreadyFollowingAsync(user.Id, followed.Id, default)
+            .Returns(false);
+
+        // Act
+        await _followerService.StartFollowingAsync(user, followed, UtcNow, default);
+
+        // Assert
+        _followerRepositoryMock.Received(1)
+            .Insert(Arg.Is<Follower>(f => f.UserId == user.Id &&
+                                          f.FollowedId == followed.Id &&
+                                          f.CreatedOnUtc == UtcNow));
+    }
+}
