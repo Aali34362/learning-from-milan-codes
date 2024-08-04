@@ -1,0 +1,22 @@
+version: '3.4'
+
+services:
+  newsletter-api:
+    image: ${DOCKER_REGISTRY-}newsletter-api
+    container_name: Newsletter.Api
+    build:
+      context: .
+      dockerfile: Newsletter.Api/Dockerfile
+    ports:
+      - "5001:443"
+
+  newsletter-db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: Newsletter.Db
+    volumes:
+        - ./.containers/database:/var/opt/mssql/data
+    ports:
+        - "1433:1433"
+    environment:
+        ACCEPT_EULA: "Y"
+        SA_PASSWORD: "Strong_password_123!"
