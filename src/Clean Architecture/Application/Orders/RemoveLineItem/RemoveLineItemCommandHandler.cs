@@ -1,4 +1,5 @@
 ﻿using Application.Data;
+using Domain.Orders;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,19 +7,22 @@ namespace Application.Orders.RemoveLineItem;
 
 internal sealed class RemoveLineItemCommandHandler : IRequestHandler<RemoveLineItemCommand>
 {
-    private readonly IApplicationDbContext _context;
+    private readonly IOrderRepository _orderRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public RemoveLineItemCommandHandler(IApplicationDbContext context)
+    public RemoveLineItemCommandHandler(
+        IOrderRepository orderRepository,
+        IUnitOfWork unitOfWork)
     {
-        _context = context;
+        _orderRepository = orderRepository;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task Handle(RemoveLineItemCommand request, CancellationToken cancellationToken)
     {
-        var order = await _context
-            .Orders
-            .Include(o => o.LineItems.Where(li => li.Id == request.LineItemId))
-            .SingleOrDefaultAsync(o => o.Id == request.OrderId, cancellationToken);
+        var order = await _orderRepository.GetByIdWithLineItemAsync(
+            request.OrderId,
+            request.LineItemId);
 
         if (order is null)
         {
@@ -27,6 +31,6 @@ internal sealed class RemoveLineItemCommandHandler : IRequestHandler<RemoveLineI
 
         order.RemoveLineItem(request.LineItemId);
 
-        await _context.SaveChangesAsync(cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 }

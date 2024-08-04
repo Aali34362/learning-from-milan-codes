@@ -1,4 +1,5 @@
-﻿using Rebus.Bus;
+﻿using IntegrationEvents;
+using Rebus.Bus;
 using Rebus.Handlers;
 using Rebus.Sagas;
 
